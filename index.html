@@ -1,13 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vite App</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/logo.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+
+    <style>
+        body,html{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .loader {
+            position: relative;
+            top: 40%;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .outer,
+        .middle,
+        .inner {
+            border: 3px solid transparent;
+            border-top-color: #6a2696;
+            border-right-color: #8f288a;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+        .outer {
+            width: 3.5em;
+            height: 3.5em;
+            margin-left: -1.75em;
+            margin-top: -1.75em;
+            animation: spin 2s linear infinite;
+        }
+
+        .middle {
+            width: 2.1em;
+            height: 2.1em;
+            margin-left: -1.05em;
+            margin-top: -1.05em;
+            animation: spin 1.75s linear reverse infinite;
+        }
+
+        .inner {
+            width: 0.8em;
+            height: 0.8em;
+            margin-left: -0.4em;
+            margin-top: -0.4em;
+            animation: spin 1.5s linear infinite;
+        }
+
+
+        #loading-view{
+            transition: all 0.8s linear;
+        }
+    </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+<div id="loading-view" style="width: 100%;height: 100%;">
+    <div class="loader">
+        <div class="outer"></div>
+        <div class="middle"></div>
+        <div class="inner"></div>
+    </div>
+</div>
+<div id="app"></div>
+<script type="module" src="/src/main.js"></script>
+<script>
+  let elementById = document.getElementById('loading-view')
+  if (elementById) {
+    setTimeout(()=>{
+      elementById.style.opacity = '0'
+    },400)
+    setTimeout(()=>{
+      elementById.remove()
+    },1200)
+  }
+</script>
 </body>
 </html>
