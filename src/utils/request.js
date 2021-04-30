@@ -1,6 +1,5 @@
 import axios from 'axios'
 import qs from 'qs'
-import { Toast } from 'vant'
 import { createStore } from 'vuex'
 export const config =  {
   baseUrl:
@@ -40,9 +39,7 @@ const DEFAULT_OPTION = {
 }
 
 function notifyUserWithAlert(message, title = '网络请求失败') {
-  Toast.fail({
-    message: message,
-  })
+  window.alert(message)
 }
 
 export const loadingState = createStore(
