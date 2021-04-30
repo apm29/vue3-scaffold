@@ -65,3 +65,28 @@ const app = createApp();
 app.use(Vant);
 
 ```
+
+
+#### 加入工具类
+* 引入jsconfig.json, 别名配置
+```json
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "paths": {
+          "@/*": ["src/*"]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "./src/**/*"
+    ]
+}
+```
+* 改造request.js
+> 将配置config store 放在同一个文件内导出

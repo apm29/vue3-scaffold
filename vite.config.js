@@ -1,7 +1,13 @@
 import styleImport from 'vite-plugin-style-import'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-export default defineConfig({
+import path from 'path'
+const baseUrl = {
+  development: './',
+  production: './'
+}
+
+export default ({ mode }) => defineConfig({
   // 1. 如果使用的是ant-design 系列的 需要配置这个
   // 2. 确保less安装在依赖 `yarn add less -D`
   css: {
@@ -48,4 +54,11 @@ export default defineConfig({
       ],
     }),
   ],
+  base: baseUrl[mode],
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, 'src')
+    }
+  },
 })
