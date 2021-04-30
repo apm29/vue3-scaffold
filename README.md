@@ -33,3 +33,28 @@ index.css文件,然后在main.js引入该css文件
 @tailwind utilities;
 ```
 
+
+
+#### 加入工具类
+* 引入jsconfig.json, 别名配置
+```json
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "paths": {
+          "@/*": ["src/*"]
+        }
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "./src/**/*"
+    ]
+}
+```
+* 改造request.js
+> 将配置config store 放在同一个文件内导出
