@@ -14,7 +14,7 @@ vue add vuetify
 ```
 选择V3(alpha)预设配置i
 
-#### 2.安装tailwindcss
+#### 3.安装tailwindcss
 * 安装依赖
 ```shell
 npm install -D tailwindcss@npm:@tailwindcss/postcss7-compat @tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
@@ -43,4 +43,13 @@ module.exports = {
 @tailwind components;
 @tailwind utilities;
 ```
+
+#### 4.添加ESLint
+
+vue-cli命令行添加eslint,选择喜欢的配置: 我是prettier + lint on save
+```shell
+vue add eslint
+```
+> `Webstorm` 需要在设置中Language And Framework -> JavaScript -> Prettier 配置save时lint
+
 
