@@ -1,8 +1,8 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
   <HelloWorld msg="Hello Vue 3.0 + Vite" />
-  <div class="tw-p-12 tw-bg-gray-100">
-    <div class="tw-font-bold tw-shadow-lg tw-ring-2 tw-ring-blue-400 tw-ring-offset-4 tw-bg-green-500 tw-m-11">
+  <div class="">
+    <div class="tw-text-3xl tw-text-red-600 tw-font-extrabold">
       123
     </div>
   </div>
