@@ -37,6 +37,6 @@ module.exports = {
   },
   plugins: [],
   corePlugins: {
-    preflight: false, //禁用preflight样式重置
+    preflight: true, //禁用preflight样式重置
   },
 };
