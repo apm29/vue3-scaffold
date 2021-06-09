@@ -13,6 +13,7 @@ module.exports = {
     "vue/no-async-in-computed-properties": "warn",
     "vue/no-dupe-keys": "warn",
     "vue/no-multiple-template-root": "off",
+    "vue/no-v-model-argument": "off",
     "vue/no-duplicate-attributes": "warn",
     "vue/no-parsing-error": "warn",
     "vue/no-reserved-keys": "warn",
