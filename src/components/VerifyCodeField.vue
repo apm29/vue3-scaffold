@@ -64,25 +64,32 @@ export default {
     let { value, rules, readonly, disabled } = toRefs(props);
 
     //region 输入相关
-    let captcha = reactive([]);
-    let captchaStr = computed(() =>
-      captcha.filter((it) => it !== undefined && it !== null).join("")
+    let captcha = ref([]);
+    watch(
+      value,
+      (newValue, oldValue) => {
+        if (newValue && newValue !== oldValue) {
+          console.log(newValue);
+          captcha.value = String(newValue).split("");
+        }
+      },
+      { immediate: true }
     );
 
     let onAnyKeyDown = function (index, event) {
       let input = event.target;
       if (
-        captcha[index] !== event.key &&
+        captcha.value[index] !== event.key &&
         event.key.length === 1 &&
         !event.metaKey &&
         !event.ctrlKey
       ) {
-        captcha[index] = event.key;
+        captcha.value[index] = event.key;
         event.preventDefault();
       }
 
       if (event.key === "Backspace") {
-        captcha[index] = null;
+        captcha.value[index] = null;
         if (input.previousSibling && input.previousSibling.focus) {
           input.previousSibling.focus();
         }
@@ -96,8 +103,10 @@ export default {
       ) {
         event.target.nextSibling.focus();
       }
-
-      context.emit("update:value", captchaStr);
+      context.emit(
+        "update:value",
+        captcha.value.filter((it) => it !== undefined && it !== null).join("")
+      );
     };
     //endregion
 
@@ -162,7 +171,6 @@ export default {
     //endregion
     return {
       captcha,
-      captchaStr,
       onAnyKeyDown,
 
       validate,
