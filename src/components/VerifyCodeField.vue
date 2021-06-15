@@ -5,7 +5,10 @@
       class="input-cell"
       v-for="(value, index) in size"
       :key="value"
-      @keydown="(event) => onAnyKeyDown(index, event)"
+      @keydown="
+        (event) =>
+          !internalReadOnly && !internalDisabled && onAnyKeyDown(index, event)
+      "
       maxlength="1"
       ref="input"
       :disabled="internalDisabled"

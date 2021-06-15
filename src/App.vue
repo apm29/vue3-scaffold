@@ -8,6 +8,7 @@
       :rules="[(v) => Boolean(v) || '请输入验证码']"
       v-model:value="code"
       v-model:is-validate="validate"
+      readonly
       ref="verify"
     ></VerifyCodeField>
   </v-form>
