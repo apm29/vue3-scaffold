@@ -7,10 +7,12 @@
     <VerifyCodeField
       :rules="[(v) => Boolean(v) || '请输入验证码']"
       v-model:value="code"
+      v-model:is-validate="validate"
       ref="verify"
     ></VerifyCodeField>
   </v-form>
   <v-btn block @click="validateInput">{{ validate }}</v-btn>
+  <v-btn block @click="resetInputValidation">RESET VALIDATION</v-btn>
   <v-btn block @click="resetInput">RESET</v-btn>
 </template>
 
@@ -29,6 +31,9 @@ export default {
       this.validate = this.$refs.verify.validate();
     },
     resetInput() {
+      this.$refs.verify.reset();
+    },
+    resetInputValidation() {
       this.$refs.verify.resetValidation();
     },
   },

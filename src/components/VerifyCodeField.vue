@@ -22,12 +22,12 @@
 <script>
 import {
   computed,
+  getCurrentInstance,
   inject,
   onDeactivated,
   reactive,
   ref,
   toRefs,
-  getCurrentInstance,
   watch,
 } from "vue";
 
@@ -55,7 +55,11 @@ export default {
     value: {
       type: String,
     },
+    isValidate: {
+      type: Boolean,
+    },
   },
+  emits: ["update:value", "update:is-validate"],
   setup(props, context) {
     let { value, rules, readonly, disabled } = toRefs(props);
 
@@ -142,7 +146,8 @@ export default {
 
     watch(value, () => {
       if (!form.lazyValidation) {
-        validate();
+        let isValidate = validate();
+        context.emit("update:is-validate", ref(isValidate));
       }
     });
 
@@ -151,7 +156,8 @@ export default {
     };
     let reset = function () {
       error.value = null;
-      context.$emit("update:value", null);
+      captcha.value = [];
+      context.emit("update:value", ref(null));
     };
     //endregion
     return {
