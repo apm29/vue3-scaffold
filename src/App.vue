@@ -1,8 +1,4 @@
 <template>
-  <img alt="Vue logo" class="tw-h-12" :src="logo" />
-  <div class="tw-bg-gradient-to-r tw-from-amber-500 tw-to-purple-300">
-    <div class="tw-text-3xl tw-text-red-600 tw-font-extrabold">123</div>
-  </div>
   <v-form v-model="validate" lazy-validation>
     <VerifyCodeField
       :rules="rules"
@@ -12,6 +8,7 @@
       ref="verify"
     ></VerifyCodeField>
   </v-form>
+  {{ code }}
   <v-btn block @click="validateInput">{{ validate }}</v-btn>
   <v-btn block @click="resetInputValidation">RESET VALIDATION</v-btn>
   <v-btn block @click="resetInput">RESET</v-btn>

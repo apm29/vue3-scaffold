@@ -1,7 +1,7 @@
 <template>
   <label class="tw-flex tw-flex-nowrap tw-justify-center">
     <input
-      :value="captcha[index]"
+      :value="nonNullValue(captcha[index])"
       class="input-cell"
       v-for="(value, index) in size"
       :key="value"
@@ -29,7 +29,6 @@ import {
   getCurrentInstance,
   inject,
   onDeactivated,
-  reactive,
   ref,
   toRefs,
   watch,
@@ -68,10 +67,16 @@ export default {
   },
   emits: ["update:value", "update:is-validate"],
   setup(props, context) {
-    let { value, rules, readonly, disabled } = toRefs(props);
+    let { value, rules, readonly, disabled, size } = toRefs(props);
 
     //region 输入相关
-    let captcha = ref([]);
+    let captcha = ref(Array.from({ length: size.value }));
+    let internalValue = ref(null);
+    watch(internalValue, (newValue, oldValue) => {
+      if (newValue && newValue !== oldValue) {
+        context.emit("update:value", String(newValue));
+      }
+    });
     watch(
       value,
       (newValue, oldValue) => {
@@ -81,6 +86,14 @@ export default {
       },
       { immediate: true }
     );
+
+    const nonNullValue = function (value) {
+      if (value && value.trim()) {
+        return value;
+      } else {
+        return null;
+      }
+    };
 
     let onAnyKeyDown = function (index, event) {
       let input = event.target;
@@ -114,10 +127,9 @@ export default {
       ) {
         event.target.nextSibling.focus();
       }
-      context.emit(
-        "update:value",
-        captcha.value.filter((it) => it !== undefined && it !== null).join("")
-      );
+      internalValue.value = captcha.value
+        .map((it) => (it !== undefined && it !== null ? it : " "))
+        .join("");
     };
     //endregion
 
@@ -150,7 +162,10 @@ export default {
       }
       for (let index = 0; index < rules.value.length; index++) {
         const rule = rules.value[index];
-        const valid = typeof rule === "function" ? rule(value.value) : rule;
+        const valid =
+          typeof rule === "function"
+            ? rule(internalValue.value.replaceAll(/\s+/g, ""))
+            : rule;
 
         if (valid === false || typeof valid === "string") {
           errorBucket.push(valid || "");
@@ -184,6 +199,7 @@ export default {
     return {
       captcha,
       onAnyKeyDown,
+      nonNullValue,
 
       validate,
       resetValidation,
