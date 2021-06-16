@@ -102,6 +102,11 @@ export default {
         event.preventDefault();
       }
 
+      if (event.metaKey || event.ctrlKey) {
+        event.preventDefault();
+        return;
+      }
+
       if (
         event.target.nextSibling &&
         event.target.nextSibling.focus &&
