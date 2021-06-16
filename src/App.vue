@@ -5,7 +5,7 @@
   </div>
   <v-form v-model="validate" lazy-validation>
     <VerifyCodeField
-      :rules="[(v) => Boolean(v) || '请输入验证码']"
+      :rules="rules"
       v-model:value="code"
       v-model:is-validate="validate"
       placeholder="请输入验证码"
@@ -19,6 +19,7 @@
 
 <script>
 import VerifyCodeField from "@/components/VerifyCodeField";
+
 export default {
   name: "App",
   components: { VerifyCodeField },
@@ -26,6 +27,10 @@ export default {
     logo: require("@/assets/logo.svg"),
     code: "3333",
     validate: false,
+    rules: [
+      (v) => Boolean(v) || "验证码不能为空",
+      (v) => v.length === 6 || "必须为6位验证码",
+    ],
   }),
   methods: {
     validateInput() {
