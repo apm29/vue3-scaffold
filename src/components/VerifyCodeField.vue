@@ -14,6 +14,7 @@
       :disabled="internalDisabled"
       :readonly="internalReadOnly"
       v-bind="$attrs"
+      :placeholder="placeholder && placeholder[index]"
       autocapitalize="characters"
     />
   </label>
@@ -40,6 +41,9 @@ export default {
     size: {
       type: Number,
       default: 6,
+    },
+    placeholder: {
+      type: String,
     },
     readonly: {
       type: Boolean,
@@ -72,7 +76,6 @@ export default {
       value,
       (newValue, oldValue) => {
         if (newValue && newValue !== oldValue) {
-          console.log(newValue);
           captcha.value = String(newValue).split("");
         }
       },
@@ -147,8 +150,9 @@ export default {
         if (valid === false || typeof valid === "string") {
           errorBucket.push(valid || "");
         } else if (typeof valid !== "boolean") {
-          console.log(
-            `Rules should return a string or boolean, received '${typeof valid}' instead`
+          console.warn(
+            `Rules should return a string or boolean, received '${typeof valid}' instead`,
+            componentInternalInstance
           );
         }
       }
@@ -201,5 +205,8 @@ export default {
   tw-uppercase
   disabled:tw-shadow-none disabled:tw-border-trueGray-50 disabled:tw-bg-gray-100
   focus:tw-outline-none  focus:tw-shadow-2xl focus:tw-ring-4 focus:tw-ring-purple-500 focus:tw-border-trueGray-50;
+}
+.input-cell::placeholder {
+  @apply tw-text-gray-400 tw-text-lg tw-absolute tw-top-1/2 tw-left-1/2 tw--translate-x-1/2 tw--translate-y-1/2 tw-transform;
 }
 </style>
