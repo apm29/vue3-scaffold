@@ -71,7 +71,7 @@ export default {
 
     //region 输入相关
     let captcha = ref(Array.from({ length: size.value }));
-    let internalValue = ref(null);
+    let internalValue = ref(value.value);
     watch(internalValue, (newValue, oldValue) => {
       if (newValue && newValue !== oldValue) {
         context.emit("update:value", String(newValue));
