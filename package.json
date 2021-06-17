@@ -10,12 +10,13 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "core-js": "^3.6.5",
+    "nprogress": "^0.2.0",
     "roboto-fontface": "*",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2",
     "vue": "^3.0.4",
     "vue-router": "4",
-    "nprogress": "^0.2.0",
-    "vuetify": "^3.0.0-alpha.5"
+    "vuetify": "^3.0.0-alpha.5",
+    "vuex": "^4.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.1.2",
