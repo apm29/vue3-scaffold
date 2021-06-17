@@ -13,8 +13,5 @@ module.exports = {
   },
   configureWebpack: {
     name: "Vue3基础模板",
-    chainWebpack: (config) => {
-      config.resolve.alias.set("@", resolve("src"));
-    },
   },
 };

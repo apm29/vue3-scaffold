@@ -1,16 +1,18 @@
 <template>
-  <VerifyCodeField
-    :rules="rules"
-    v-model:value="code"
-    v-model:is-validate="validate"
-    placeholder="请输入验证码"
-    ref="verify"
-  ></VerifyCodeField>
-  {{ code }}
-  <v-btn block @click="validateInput">{{ validate }}</v-btn>
-  <v-btn block @click="resetInputValidation">RESET VALIDATION</v-btn>
-  <v-btn block @click="resetInput">RESET</v-btn>
-  <v-btn block @click="toAbort">Abort</v-btn>
+  <div>
+    <VerifyCodeField
+      :rules="rules"
+      v-model:value="code"
+      v-model:is-validate="validate"
+      placeholder="请输入验证码"
+      ref="verify"
+    ></VerifyCodeField>
+    {{ code }}
+    <v-btn block @click="validateInput">{{ validate }}</v-btn>
+    <v-btn block @click="resetInputValidation">RESET VALIDATION</v-btn>
+    <v-btn block @click="resetInput">RESET</v-btn>
+    <v-btn block @click="toAbort">Abort</v-btn>
+  </div>
 </template>
 
 <script>
