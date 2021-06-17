@@ -1,11 +1,10 @@
 <template>
   <div
     class="tw-absolute tw-top-1 tw-right-1.5 tw-flex tw-flex-col tw-items-end"
-    v-bind="$attrs"
   >
     <v-slide-y-transition hide-on-leave group>
       <div
-        v-for="notification of notifyQueue"
+        v-for="notification of notifyQueue.filter((it) => it.group === 'tr')"
         :key="notification.id"
         class="notification-wrapper"
         :class="[notification.type]"
@@ -23,6 +22,147 @@
         </v-icon>
       </div>
     </v-slide-y-transition>
+  </div>
+  <div
+    class="tw-absolute tw-top-1 tw-left-1.5 tw-flex tw-flex-col tw-items-start"
+  >
+    <v-slide-y-transition hide-on-leave group>
+      <div
+        v-for="notification of notifyQueue.filter((it) => it.group === 'tl')"
+        :key="notification.id"
+        class="notification-wrapper"
+        :class="[notification.type]"
+        v-ripple
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
+      >
+        <div class="tw-flex-grow tw-text-left">
+          {{ notification.message }}
+        </div>
+        <v-icon>
+          {{ getIcon(notification.type) }}
+        </v-icon>
+      </div>
+    </v-slide-y-transition>
+  </div>
+  <div
+    class="
+      tw-absolute tw-bottom-5 tw-left-1.5 tw-flex tw-flex-col tw-items-start
+    "
+  >
+    <v-slide-y-reverse-transition hide-on-leave group>
+      <div
+        v-for="notification of notifyQueue.filter((it) => it.group === 'bl')"
+        :key="notification.id"
+        class="notification-wrapper"
+        :class="[notification.type]"
+        v-ripple
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
+      >
+        <div class="tw-flex-grow tw-text-left">
+          {{ notification.message }}
+        </div>
+        <v-icon>
+          {{ getIcon(notification.type) }}
+        </v-icon>
+      </div>
+    </v-slide-y-reverse-transition>
+  </div>
+  <div
+    class="
+      tw-absolute tw-bottom-5 tw-right-1.5 tw-flex tw-flex-col tw-items-end
+    "
+  >
+    <v-slide-y-reverse-transition hide-on-leave group>
+      <div
+        v-for="notification of notifyQueue.filter((it) => it.group === 'br')"
+        :key="notification.id"
+        class="notification-wrapper"
+        :class="[notification.type]"
+        v-ripple
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
+      >
+        <div class="tw-flex-grow tw-text-left">
+          {{ notification.message }}
+        </div>
+        <v-icon>
+          {{ getIcon(notification.type) }}
+        </v-icon>
+      </div>
+    </v-slide-y-reverse-transition>
+  </div>
+
+  <div
+    class="
+      tw-absolute
+      tw-bottom-5
+      tw-right-1.5
+      tw-left-1.5
+      tw-flex
+      tw-flex-col
+      tw-items-center
+    "
+  >
+    <v-slide-y-reverse-transition hide-on-leave group>
+      <div
+        v-for="notification of notifyQueue.filter((it) => it.group === 'bc')"
+        :key="notification.id"
+        class="notification-wrapper"
+        :class="[notification.type]"
+        v-ripple
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
+      >
+        <div class="tw-flex-grow tw-text-left">
+          {{ notification.message }}
+        </div>
+        <v-icon>
+          {{ getIcon(notification.type) }}
+        </v-icon>
+      </div>
+    </v-slide-y-reverse-transition>
+  </div>
+  <div
+    class="
+      tw-absolute
+      tw-top-1
+      tw-right-1.5
+      tw-left-1.5
+      tw-flex
+      tw-flex-col
+      tw-items-center
+    "
+  >
+    <v-slide-y-reverse-transition hide-on-leave group>
+      <div
+        v-for="notification of notifyQueue.filter((it) => it.group === 'tc')"
+        :key="notification.id"
+        class="notification-wrapper"
+        :class="[notification.type]"
+        v-ripple
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
+      >
+        <div class="tw-flex-grow tw-text-left">
+          {{ notification.message }}
+        </div>
+        <v-icon>
+          {{ getIcon(notification.type) }}
+        </v-icon>
+      </div>
+    </v-slide-y-reverse-transition>
   </div>
 </template>
 
@@ -57,7 +197,7 @@ export default {
 
 <style scoped>
 .notification-wrapper {
-  @apply tw-px-8 tw-py-3 tw-rounded-xl tw-shadow-2xl tw-mb-2
+  @apply tw-px-6 tw-py-3 tw-rounded-xl tw-shadow-2xl tw-mb-2
   tw-border-l-8 tw-border-t-0 tw-border-b-0 tw-border-r-0 tw-border-solid
   tw-font-bold tw-text-lg tw-flex tw-items-center tw-flex-nowrap;
   min-width: 16rem;
@@ -67,6 +207,7 @@ export default {
 .error {
   @apply tw-bg-red-500 tw-text-white tw-border-red-200;
 }
+
 .info {
   @apply tw-bg-white tw-text-gray-600 tw-border-lightBlue-300;
 }

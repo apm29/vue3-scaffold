@@ -1,16 +1,16 @@
 import { reactive } from "vue";
 const notify = {
-  info: function (message, duration = 2500, data) {
-    addNotification(message, "info", duration, data);
+  info: function (message, duration = 2500, group = "tr", data) {
+    addNotification(message, "info", duration, group, data);
   },
-  error: function (message, duration = 2500, data) {
-    addNotification(message, "error", duration, data);
+  error: function (message, duration = 2500, group = "tr", data) {
+    addNotification(message, "error", duration, group, data);
   },
-  warning: function (message, duration = 2500, data) {
-    addNotification(message, "warning", duration, data);
+  warning: function (message, duration = 2500, group = "tr", data) {
+    addNotification(message, "warning", duration, group, data);
   },
-  success: function (message, duration = 2500, data) {
-    addNotification(message, "success", duration, data);
+  success: function (message, duration = 2500, group = "tr", data) {
+    addNotification(message, "success", duration, group, data);
   },
 };
 export const notification = notify;
@@ -22,7 +22,7 @@ function uniqueId() {
   return ++id;
 }
 
-function addNotification(message, type, duration = 2500, data) {
+function addNotification(message, type, duration = 2500, group, data) {
   let notification = {
     message: message,
     type: type,
@@ -30,6 +30,7 @@ function addNotification(message, type, duration = 2500, data) {
     id: uniqueId(),
     dismiss: dismiss,
     data: data,
+    group: group, //tr 右上
   };
   notifyQueue.push(notification);
 
