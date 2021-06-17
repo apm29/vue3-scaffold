@@ -8,29 +8,31 @@
       ref="verify"
     ></VerifyCodeField>
     {{ code }}
-    <v-btn block @click="validateInput">{{ validate }}</v-btn>
-    <v-btn block @click="resetInputValidation">RESET VALIDATION</v-btn>
-    <v-btn block @click="resetInput">RESET</v-btn>
-    <v-btn block @click="toAbort">Abort</v-btn>
+    <v-btn @click="validateInput">{{ validate }}</v-btn>
+    <v-btn @click="resetInputValidation">RESET VALIDATION</v-btn>
+    <v-btn @click="resetInput">RESET</v-btn>
+    <v-btn @click="toAbort">Abort</v-btn>
     <v-btn
-      block
-      @click="
-        notification.error(
-          'asdadas获取微乎其微企鹅号奥施康定很快就暗红色的123asdasdasdasdasdadas获取微乎其微企鹅号奥施康定很快就暗红色的123asdasdasdasdasdadas获取微乎其微企鹅号奥施康定很快就暗红色的123asdasdasdasd'
-        )
-      "
-      >error</v-btn
+      @click="notification.error('ERRRRRRRRRRRRRRRRRRRRRRRROR', 2500000, 'tl')"
     >
-    <v-btn block @click="notification.success(123)">success</v-btn>
-    <v-btn block @click="notification.warning(123)">warning</v-btn>
-    <v-btn block @click="notification.info(123)">info</v-btn>
-    <v-btn block @click="notification.info(123, 2500, 'tl')">info</v-btn>
-    <v-btn block @click="notification.info(123, 2500, 'bl')">info</v-btn>
-    <v-btn block @click="notification.info(123, 2500, 'br')">info</v-btn>
-    <v-btn block @click="notification.info(123, 2500, 'bc')">info</v-btn>
-    <v-btn block @click="notification.info(123, 2500, 'tc')">info</v-btn>
-    <v-btn block @click="testDialog">program-dialog</v-btn>
-    <v-btn block @click="testDialog2">program-dialog2</v-btn>
+      error
+    </v-btn>
+    <v-btn @click="notification.success(123)">success</v-btn>
+    <v-btn @click="notification.warning(123)">warning</v-btn>
+    <v-btn @click="notification.info(123)">info</v-btn>
+    <v-btn
+      @click="
+        notification.info(123, 2500, 'tl', { a: 1 }, (data) => testDialog(data))
+      "
+    >
+      info
+    </v-btn>
+    <v-btn @click="notification.info(123, 2500, 'bl')">info</v-btn>
+    <v-btn @click="notification.info(123, 2500, 'br')">info</v-btn>
+    <v-btn @click="notification.info(123, 2500, 'bc')">info</v-btn>
+    <v-btn @click="notification.info(123, 2500, 'tc')">info</v-btn>
+    <v-btn @click="testDialog()">program-dialog</v-btn>
+    <v-btn @click="testDialog2()">program-dialog2</v-btn>
   </div>
 </template>
 
@@ -66,8 +68,8 @@ export default {
     toAbort() {
       this.$router.push({ path: "/abort" });
     },
-    async testDialog() {
-      if (await dialog.confirm("确认关闭吗?")) {
+    async testDialog(data = "确认关闭吗") {
+      if (await dialog.confirm(data)) {
         alert("已关闭");
       }
     },

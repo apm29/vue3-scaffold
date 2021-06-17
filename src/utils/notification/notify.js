@@ -1,16 +1,68 @@
 import { reactive } from "vue";
 const notify = {
-  info: function (message, duration = 2500, group = "tr", data) {
-    addNotification(message, "info", duration, group, data);
+  info: function (
+    message,
+    duration = 2500,
+    group = "tr",
+    data,
+    onNotificationClick
+  ) {
+    addNotification(
+      message,
+      "info",
+      duration,
+      group,
+      data,
+      onNotificationClick
+    );
   },
-  error: function (message, duration = 2500, group = "tr", data) {
-    addNotification(message, "error", duration, group, data);
+  error: function (
+    message,
+    duration = 2500,
+    group = "tr",
+    data,
+    onNotificationClick
+  ) {
+    addNotification(
+      message,
+      "error",
+      duration,
+      group,
+      data,
+      onNotificationClick
+    );
   },
-  warning: function (message, duration = 2500, group = "tr", data) {
-    addNotification(message, "warning", duration, group, data);
+  warning: function (
+    message,
+    duration = 2500,
+    group = "tr",
+    data,
+    onNotificationClick
+  ) {
+    addNotification(
+      message,
+      "warning",
+      duration,
+      group,
+      data,
+      onNotificationClick
+    );
   },
-  success: function (message, duration = 2500, group = "tr", data) {
-    addNotification(message, "success", duration, group, data);
+  success: function (
+    message,
+    duration = 2500,
+    group = "tr",
+    data,
+    onNotificationClick
+  ) {
+    addNotification(
+      message,
+      "success",
+      duration,
+      group,
+      data,
+      onNotificationClick
+    );
   },
 };
 export const notification = notify;
@@ -22,13 +74,23 @@ function uniqueId() {
   return ++id;
 }
 
-function addNotification(message, type, duration = 2500, group, data) {
+function addNotification(
+  message,
+  type,
+  duration = 2500,
+  group,
+  data,
+  onNotificationClick
+) {
   let notification = {
     message: message,
     type: type,
     duration: duration,
     id: uniqueId(),
-    dismiss: dismiss,
+    onNotificationClick: () => {
+      dismiss();
+      onNotificationClick(data);
+    },
     data: data,
     group: group, //tr 右上
   };
