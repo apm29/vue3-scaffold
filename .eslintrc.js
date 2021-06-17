@@ -36,7 +36,7 @@ module.exports = {
     "vue/valid-v-cloak": "warn",
     "vue/valid-v-else-if": "warn",
     "vue/valid-v-else": "warn",
-    "vue/valid-v-for": "warn",
+    "vue/valid-v-for": "off",
     "vue/valid-v-html": "warn",
     "vue/valid-v-if": "warn",
     "vue/valid-v-model": "warn",
