@@ -10,7 +10,10 @@
         class="notification-wrapper"
         :class="[notification.type]"
         v-ripple
-        @click="notification.dismiss()"
+        @click="
+          $emit('notification-click', notification);
+          notification.dismiss();
+        "
       >
         <div class="tw-flex-grow tw-text-left">
           {{ notification.message }}
@@ -28,6 +31,7 @@ import { notifyQueue } from "@/utils/notification/notify";
 
 export default {
   name: "Notification",
+  emits: ["notification-click"],
   setup() {
     let getIcon = function (type) {
       switch (type) {
