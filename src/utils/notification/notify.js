@@ -89,7 +89,9 @@ function addNotification(
     id: uniqueId(),
     onNotificationClick: () => {
       dismiss();
-      onNotificationClick(data);
+      if (onNotificationClick && onNotificationClick instanceof Function) {
+        onNotificationClick(data);
+      }
     },
     data: data,
     group: group, //tr 右上
