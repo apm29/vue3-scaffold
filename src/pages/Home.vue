@@ -24,12 +24,15 @@
     <v-btn block @click="notification.success(123)">success</v-btn>
     <v-btn block @click="notification.warning(123)">warning</v-btn>
     <v-btn block @click="notification.info(123)">info</v-btn>
+    <v-btn block @click="testDialog">program-dialog</v-btn>
+    <v-btn block @click="testDialog2">program-dialog2</v-btn>
   </div>
 </template>
 
 <script>
 import VerifyCodeField from "@/components/VerifyCodeField";
 import { notification } from "@/utils/notification/notify";
+import { dialog } from "@/utils/dialog/dialog";
 export default {
   name: "Home",
   components: { VerifyCodeField },
@@ -37,11 +40,13 @@ export default {
     logo: require("@/assets/logo.svg"),
     code: "3333",
     validate: false,
+    show: false,
     rules: [
       (v) => Boolean(v) || "验证码不能为空",
       (v) => v.length === 6 || "必须为6位验证码",
     ],
     notification,
+    dialog,
   }),
   methods: {
     validateInput() {
@@ -55,6 +60,16 @@ export default {
     },
     toAbort() {
       this.$router.push({ path: "/abort" });
+    },
+    async testDialog() {
+      if (await dialog.confirm("确认关闭吗?")) {
+        alert("已关闭");
+      }
+    },
+    async testDialog2() {
+      if (await dialog.alert("你好")) {
+        alert("已关闭");
+      }
     },
   },
 };

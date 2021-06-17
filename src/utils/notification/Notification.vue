@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { notifyQueue } from "@/utils/notification/notify";
+import { notifyQueue } from "./notify";
 
 export default {
   name: "Notification",
