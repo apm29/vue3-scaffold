@@ -12,7 +12,7 @@ module.exports = {
     hotOnly: false,
     proxy: {
       "/testApi": {
-        target: "http://test.net",
+        target: "http://ebasetest2.ciih.net",
         changeOrigin: true,
         pathRewrite: {
           "^/testApi": "",

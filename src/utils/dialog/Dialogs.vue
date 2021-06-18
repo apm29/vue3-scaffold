@@ -6,7 +6,13 @@
       @update:modelValue="onClick()"
     >
       <v-dialog-bottom-transition>
-        <v-card color="white" class="dialog-wrapper" v-if="dialogStore.show">
+        <v-card
+          max-width="80vw"
+          max-height="80vh"
+          color="white"
+          class="dialog-wrapper overflow-auto"
+          v-if="dialogStore.show"
+        >
           <v-card-title> </v-card-title>
           <v-card-text class="tw-px-12 tw-py-4">
             <v-icon v-if="dialogStore.type === 'confirm'">
