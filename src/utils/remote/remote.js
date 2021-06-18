@@ -23,6 +23,10 @@ const DEFAULT_OPTION = {
   ],
   fileName: undefined,
   showSuccessMessage: true,
+  tag: "app", //loading指示器的tag(分组)
+  taskName: "请求", //loading指示器的名称
+  cancelSource: undefined,
+  cancelToken: undefined,
 };
 
 /**

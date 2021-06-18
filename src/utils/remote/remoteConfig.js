@@ -1,6 +1,7 @@
 import remote from "@/utils/remote/remote";
 import { notification } from "@/utils/notification/notify";
 import { getToken } from "@/utils/storage/storage";
+import { startLoading, stopLoading } from "@/utils/remote/store";
 
 remote.init({
   onInterceptRequest(axiosRequest, option) {
@@ -31,6 +32,10 @@ remote.init({
       }
     });
   },
-  startLoading(option) {},
-  stopLoading(option) {},
+  startLoading(option) {
+    startLoading(option.tag, option.taskName, option.cancelSource);
+  },
+  stopLoading(option) {
+    stopLoading(option.tag, option.taskName, option.cancelSource);
+  },
 });

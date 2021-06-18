@@ -80,20 +80,6 @@ export default {
         alert("已关闭");
       }
     },
-    async test() {
-      try {
-        let res = await remote.postFormData({
-          url: "/java/auth/getUserInfo",
-          data: {},
-          showSuccessMessage: true,
-          token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
-        });
-        await dialog.alert(res);
-      } catch (e) {
-        console.log(e);
-      }
-    },
   },
 };
 </script>
