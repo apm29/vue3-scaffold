@@ -10,3 +10,9 @@ app.use(router);
 app.use(store);
 
 app.mount("#app");
+
+if (process.env.NODE_ENV === "development") {
+  import("@/mock");
+}
+
+console.log(process.env);

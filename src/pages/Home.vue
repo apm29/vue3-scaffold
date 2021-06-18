@@ -40,6 +40,7 @@
 import VerifyCodeField from "@/components/VerifyCodeField";
 import { notification } from "@/utils/notification/notify";
 import { dialog } from "@/utils/dialog/dialog";
+import remote from "@/utils/remote";
 export default {
   name: "Home",
   components: { VerifyCodeField },
@@ -55,6 +56,13 @@ export default {
     notification,
     dialog,
   }),
+  async created() {
+    let res = await remote.post({
+      url: "/test/network",
+      data: {},
+    });
+    console.log(res);
+  },
   methods: {
     validateInput() {
       this.validate = this.$refs.verify.validate();

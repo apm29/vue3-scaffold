@@ -10,6 +10,15 @@ module.exports = {
     host: "0.0.0.0",
     https: false,
     hotOnly: false,
+    proxy: {
+      "/testApi": {
+        target: "http://test.net",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/testApi": "",
+        },
+      },
+    },
   },
   configureWebpack: {
     name: "Vue3基础模板",
