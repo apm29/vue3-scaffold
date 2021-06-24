@@ -90,7 +90,7 @@
 
 <script>
 import { notifyQueue } from "./notify";
-import NotificationContent from "@/utils/notification/NotificationContent";
+import NotificationContent from "@/utils/notification/NotificationContent.vue";
 
 export default {
   name: "Notification",
