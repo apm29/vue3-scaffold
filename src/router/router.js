@@ -17,7 +17,7 @@ const routes = [
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: () => import("@/pages/errors/404"),
+    component: () => import("@/pages/errors/404.vue"),
     props: (route) => ({
       path: route.path,
     }),
