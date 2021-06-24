@@ -23,17 +23,24 @@ const DEFAULT_OPTION = {
   ],
   fileName: undefined,
   showSuccessMessage: true,
+  showErrorMessage: true,
   tag: "app", //loading指示器的tag(分组)
   taskName: "请求", //loading指示器的名称
   cancelSource: undefined,
   cancelToken: undefined,
+  onInterceptRequest: undefined, //Function 拦截请求
+  onInterceptResponse: undefined, //Function 拦截响应
+  onInterceptRejectedRequest: undefined, //Function 拦截rejected请求
+  onInterceptRejectedResponse: undefined, //Function 拦截rejected响应
+  startLoading: undefined, //Function 开始加载
+  stopLoading: undefined, //Function 结束加载
 };
 
 /**
  * 请求工具类
  */
 export default {
-  postFormData: async function (option) {
+  post: async function (option) {
     const postOptions = {
       method: "POST",
       headers: {
@@ -84,12 +91,22 @@ export default {
     const axiosInstance = axios.create();
     this.interceptors(axiosInstance, option);
     try {
-      Utils.startLoading(option);
+      //首先使用option中的loading拦截
+      if (option.startLoading && option.startLoading instanceof Function) {
+        option.startLoading(option);
+      } else {
+        Utils.startLoading(option);
+      }
       return await axiosInstance.request({
         ...option,
       });
     } finally {
-      Utils.stopLoading(option);
+      //首先使用option中的loading拦截
+      if (option.stopLoading && option.stopLoading instanceof Function) {
+        option.stopLoading(option);
+      } else {
+        Utils.stopLoading(option);
+      }
     }
   },
 
@@ -97,29 +114,64 @@ export default {
     // 请求拦截
     instance.interceptors.request.use(
       async (config) => {
+        //首先使用option中的请求拦截
+        if (
+          option.onInterceptRequest &&
+          option.onInterceptRequest instanceof Function
+        ) {
+          return option.onInterceptRequest(option);
+        }
         return Utils.onInterceptRequest(config, option);
       },
       (error) => {
-        return Promise.reject(error);
+        let tryGetError =
+          option.onInterceptRejectedRequest &&
+          option.onInterceptRejectedRequest(error, option);
+        return Promise.reject(
+          tryGetError || Utils.onInterceptRejectedResponse(error, option)
+        );
       }
     );
     // 响应拦截
     instance.interceptors.response.use(
       async (axiosResponse) => {
+        //首先使用option中的响应拦截
+        if (
+          option.onInterceptResponse &&
+          option.onInterceptResponse instanceof Function
+        ) {
+          return option.onInterceptResponse(option);
+        }
         return Utils.onInterceptResponse(axiosResponse, option);
       },
       (error) => {
-        return Promise.reject(error);
+        let tryGetError =
+          option.onInterceptRejectedResponse &&
+          option.onInterceptRejectedResponse(error, option);
+        return Promise.reject(
+          tryGetError || Utils.onInterceptRejectedResponse(error, option)
+        );
       }
     );
   },
 
-  init({ onInterceptRequest, onInterceptResponse, startLoading, stopLoading }) {
+  init({
+    onInterceptRequest,
+    onInterceptResponse,
+    onInterceptRejectedRequest,
+    onInterceptRejectedResponse,
+    startLoading,
+    stopLoading,
+  }) {
     Utils.onInterceptResponse =
       onInterceptResponse || Utils.onInterceptResponse;
     Utils.onInterceptRequest = onInterceptRequest || Utils.onInterceptRequest;
     Utils.startLoading = startLoading || Utils.startLoading;
     Utils.stopLoading = stopLoading || Utils.stopLoading;
+    Utils.onInterceptRejectedRequest =
+      onInterceptRejectedRequest || Utils.onInterceptRejectedRequest;
+    Utils.onInterceptRejectedResponse =
+      onInterceptRejectedResponse || Utils.onInterceptRejectedResponse;
   },
 };
 
@@ -129,7 +181,13 @@ const Utils = {
   onInterceptRequest(axiosRequestConfig, option) {
     return axiosRequestConfig;
   },
+  onInterceptRejectedRequest(error, option) {
+    return error;
+  },
   onInterceptResponse(axiosRequestConfig, option) {
     return axiosRequestConfig;
+  },
+  onInterceptRejectedResponse(error, option) {
+    return error;
   },
 };

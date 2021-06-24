@@ -82,31 +82,6 @@ export default {
         alert("已关闭");
       }
     },
-    async test() {
-      let sourceA = new axios.CancelToken.source();
-      remote.postFormData({
-        url: "/java/auth/getUserInfo",
-        data: {},
-        showSuccessMessage: true,
-        cancelToken: sourceA.token,
-        cancelSource: sourceA,
-        taskName: "测试1",
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
-      });
-      await delay(300);
-      let sourceB = new axios.CancelToken.source();
-      remote.postFormData({
-        url: "/java/auth/getUserInfo",
-        data: {},
-        showSuccessMessage: true,
-        cancelToken: sourceB.token,
-        cancelSource: sourceB,
-        taskName: "测试2",
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
-      });
-    },
   },
 };
 </script>

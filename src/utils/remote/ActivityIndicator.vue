@@ -19,18 +19,17 @@
       <div
         v-for="(entry, index) of store.app.token.entries()"
         :key="index"
-        class="tw-flex task-item"
+        class="tw-flex task-item tw-text-lg"
       >
         <v-icon class="tw-w-6 tw-mr-4 tw-text-black">
           mdi-spin mdi-loading
         </v-icon>
         <div>{{ entry[0] }}</div>
-        <v-icon
-          class="tw-w-6 tw-ml-4 close-icon"
+        <i
+          class="tw-w-6 tw-ml-4 mdi mdi-close hover:tw-text-red-500"
           @click="entry[1].cancel('用户取消')"
         >
-          mdi-close
-        </v-icon>
+        </i>
       </div>
       <div class="tw-text-green-300 tw-mt-4">Loading...</div>
     </div>
@@ -50,12 +49,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.close-icon {
-  visibility: hidden;
-}
-
-.task-item:hover > .close-icon {
-  visibility: visible;
-}
-</style>
+<style scoped></style>
