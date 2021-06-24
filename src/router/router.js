@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 const routes = [
   {
     path: "/",
@@ -12,7 +13,7 @@ const routes = [
     component: () => import("@/pages/Abort.vue"),
   },
 
-  // 将匹配所有内容并将其放在 `$route.params.pathMatch` 下
+  //匹配所有内容
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
@@ -26,6 +27,16 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes: routes,
+});
+
+//全局路由守卫
+router.beforeEach((to, from) => {
+  NProgress.start();
+  return true;
+});
+
+router.afterEach((to, from) => {
+  NProgress.done();
 });
 
 export default router;

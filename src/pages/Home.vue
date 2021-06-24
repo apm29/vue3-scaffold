@@ -22,7 +22,6 @@ export default {
   name: "Home",
   components: { VerifyCodeField },
   data: () => ({
-    logo: require("@/assets/logo.svg"),
     code: "3333",
     validate: false,
     rules: [
