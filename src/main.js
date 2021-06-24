@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import vuetify from "@/plugins/vuetify";
-import "@/plugins/remote";
+import "@/utils/remote/remoteConfig";
 import router from "@/router/router";
 import store from "@/store";
 import App from "@/App.vue";

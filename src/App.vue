@@ -8,13 +8,15 @@
       </v-slide-x-transition>
       <Notification></Notification>
       <Dialogs />
+      <ActivityIndicator />
     </router-view>
   </v-app>
 </template>
 <script>
 import Notification from "@/utils/notification/Notification.vue";
 import Dialogs from "@/utils/dialog/Dialogs.vue";
+import ActivityIndicator from "@/utils/remote/ActivityIndicator";
 export default {
-  components: { Dialogs, Notification },
+  components: { ActivityIndicator, Dialogs, Notification },
 };
 </script>
