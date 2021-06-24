@@ -58,3 +58,10 @@ index.css文件,然后在main.js引入该css文件
 ```
 * 改造request.js
 > 将配置config store 放在同一个文件内导出
+
+
+#### 3.添加ui框架vuetify
+```shell
+vue add vuetify
+```
+选择Preview (Vuetify 3 + Vite)
