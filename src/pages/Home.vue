@@ -24,6 +24,11 @@
     <v-btn block @click="notification.success(123)">success</v-btn>
     <v-btn block @click="notification.warning(123)">warning</v-btn>
     <v-btn block @click="notification.info(123)">info</v-btn>
+    <v-btn block @click="notification.info(123, 2500, 'tl')">info</v-btn>
+    <v-btn block @click="notification.info(123, 2500, 'bl')">info</v-btn>
+    <v-btn block @click="notification.info(123, 2500, 'br')">info</v-btn>
+    <v-btn block @click="notification.info(123, 2500, 'bc')">info</v-btn>
+    <v-btn block @click="notification.info(123, 2500, 'tc')">info</v-btn>
     <v-btn block @click="testDialog">program-dialog</v-btn>
     <v-btn block @click="testDialog2">program-dialog2</v-btn>
   </div>
