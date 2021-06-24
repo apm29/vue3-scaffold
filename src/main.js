@@ -12,8 +12,8 @@ app.use(store);
 
 app.mount("#app");
 
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.MODE === "development") {
   import("@/mock");
 }
 
-console.log(process.env);
+console.log(import.meta.env);

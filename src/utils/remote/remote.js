@@ -4,7 +4,7 @@ import qs from "qs";
 axios.defaults.withCredentials = true; // 是否允许跨域
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL =
-  process.env.VUE_APP_BASE_URL + process.env.VUE_APP_BASE_PATH;
+  import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_PATH;
 //默认options
 
 const DEFAULT_OPTION = {

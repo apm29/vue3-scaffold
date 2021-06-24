@@ -24,6 +24,25 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  server: {
+    open: true,
+    proxy: {
+      // 字符串简写写法
+      //"/foo": "http://localhost:4567/foo",
+      // 选项写法
+      // "/testApi": {
+      //   target: "http://ebasetest.ciih.net",
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/testApi/, ""),
+      // },
+      // 正则表达式写法
+      "^/testApi/.*": {
+        target: "http://ebasetest2.ciih.net",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/testApi/, ""),
+      },
+    },
+  },
 });
 
 console.log(resolve(__dirname, "src"));

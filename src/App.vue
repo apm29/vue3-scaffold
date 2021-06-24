@@ -15,7 +15,7 @@
 <script>
 import Notification from "@/utils/notification/Notification.vue";
 import Dialogs from "@/utils/dialog/Dialogs.vue";
-import ActivityIndicator from "@/utils/remote/ActivityIndicator";
+import ActivityIndicator from "@/utils/remote/ActivityIndicator.vue";
 export default {
   components: { ActivityIndicator, Dialogs, Notification },
 };
