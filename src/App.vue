@@ -1,11 +1,9 @@
 <template>
-  <RouterView />
+  <router-view v-slot="{ Component }">
+    <v-slide-x-transition>
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </v-slide-x-transition>
+  </router-view>
 </template>
-<script>
-import { RouterView } from "vue-router";
-export default {
-  components: {
-    RouterView,
-  },
-};
-</script>
