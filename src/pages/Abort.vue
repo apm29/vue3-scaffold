@@ -1,4 +1,6 @@
-<template>Abort</template>
+<template>
+  <div>Abort</div>
+</template>
 
 <script>
 export default {
