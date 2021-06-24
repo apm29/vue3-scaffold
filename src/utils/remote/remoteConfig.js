@@ -32,6 +32,20 @@ remote.init({
       }
     });
   },
+
+  onInterceptRejectedRequest(error, option) {
+    if (option.showErrorMessage && error) {
+      notification.error(error.message || String(error));
+    }
+    return error;
+  },
+  onInterceptRejectedResponse(error, option) {
+    if (option.showErrorMessage && error) {
+      notification.error(error.message || String(error));
+    }
+    return error;
+  },
+
   startLoading(option) {
     startLoading(option.tag, option.taskName, option.cancelSource);
   },
