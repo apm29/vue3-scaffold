@@ -1,18 +1,16 @@
-import {createStore} from 'vuex'
-import { loadingState } from '@/utils/request'
+import { createStore } from "vuex";
+import { loadingState } from "@/utils/request";
 
 export default createStore({
-  state () {
+  state() {
     return {
-      app:{
-        name:"vue3-scaffold"
-      }
-    }
+      app: {
+        name: "vue3-scaffold",
+      },
+    };
   },
-  mutations: {
-
+  mutations: {},
+  modules: {
+    loadingState,
   },
-  modules:{
-    loadingState
-  }
-})
+});

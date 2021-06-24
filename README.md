@@ -3,6 +3,9 @@
 
 #### 1.生成Vite脚手架项目
 看文档
+```shell
+yarn create @vitejs/app <project-name>
+```
 #### 2.安装tailwindcss
 * 安装依赖
 ```shell
@@ -65,3 +68,15 @@ index.css文件,然后在main.js引入该css文件
 vue add vuetify
 ```
 选择Preview (Vuetify 3 + Vite)
+
+
+
+#### 4.添加ESLint
+
+vue-cli命令行添加eslint,选择喜欢的配置: 我是prettier + lint on save
+```shell
+vue add eslint
+```
+> `Webstorm` 需要在设置中Language And Framework -> JavaScript -> Prettier 配置save时lint
+
+
