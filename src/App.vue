@@ -9,7 +9,7 @@
   </router-view>
 </template>
 <script>
-import Notification from "@/utils/notification/Notification";
+import Notification from "@/utils/notification/Notification.vue";
 export default {
   components: { Notification },
 };
