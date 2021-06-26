@@ -1,46 +1,96 @@
 <template>
-  <div id="flowGraph"></div>
+  <div
+    :id="graphContainerId"
+    class="tw-w-full tw-h-full tw-relative flow-graph"
+  >
+    <div
+      :id="miniMapContainerId"
+      class="
+        tw-absolute
+        tw-left-4
+        tw-bottom-4
+        tw-shadow-lg
+        tw-ring-1
+        tw-ring-blue-800
+        tw-rounded-lg
+        tw-bg-white
+      "
+    ></div>
+  </div>
 </template>
 
 <script>
-import G6 from "@antv/g6";
-import { onMounted } from "vue";
+import { onMounted, ref, toRefs } from "vue";
+import {
+  createStartNode,
+  registerStartNode,
+} from "@/pages/flow/nodes/startNode";
+import { handleResize, initGraph } from "@/pages/flow/graph/graph";
+
 export default {
   name: "FlowGraph",
-  setup() {
-    const data = {
+  props: ["graphData"],
+  setup(props, context) {
+    const { graphData } = toRefs(props);
+    const { emit } = context;
+    registerStartNode();
+    const data = graphData.value || {
       // 点集
-      nodes: [
-        {
-          id: "node1", // String，该节点存在则必须，节点的唯一标识
-          x: 100, // Number，可选，节点位置的 x 值
-          y: 200, // Number，可选，节点位置的 y 值
-        },
-        {
-          id: "node2", // String，该节点存在则必须，节点的唯一标识
-          x: 300, // Number，可选，节点位置的 x 值
-          y: 200, // Number，可选，节点位置的 y 值
-        },
-      ],
+      nodes: [createStartNode({})],
       // 边集
-      edges: [
-        {
-          source: "node1", // String，必须，起始点 id
-          target: "node2", // String，必须，目标点 id
-        },
-      ],
+      edges: [],
     };
+
+    const graphContainerId = "flowGraph";
+    const miniMapContainerId = "miniMap";
+    const graphRef = ref(null);
+
+    handleResize(graphContainerId, graphRef);
+
     onMounted(() => {
-      const graph = new G6.Graph({
-        container: "flowGraph", // String | HTMLElement，必须，在 Step 1 中创建的容器 id 或容器本身
-        width: 800, // Number，必须，图的宽度
-        height: 500, // Number，必须，图的高度
-      });
-      graph.data(data); // 读取 Step 2 中的数据源到图上
-      graph.render(); // 渲染图
+      graphRef.value = initGraph(
+        data,
+        graphContainerId,
+        miniMapContainerId,
+        emit
+      );
     });
+
+    return {
+      graphContainerId,
+      miniMapContainerId,
+    };
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.flow-graph {
+  /* 提示框的样式 */
+  .g6-tooltip {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0 0 10px;
+    max-width: 30vw;
+  }
+
+  .g6-component-contextmenu {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #545454;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 8px;
+    box-shadow: rgb(174, 174, 174) 0 0 10px;
+    max-width: 30vw;
+  }
+
+  .g6-grid {
+    background-repeat: repeat !important;
+  }
+}
+</style>
