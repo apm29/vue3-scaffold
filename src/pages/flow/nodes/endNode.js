@@ -137,20 +137,24 @@ export const registerEndNode = () =>
        * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
        */
       getAnchorPoints(cfg) {
-        //一个在顶部一个在底部
+        //全部在顶部
         return [
           [0.5, 0],
-          [0.5, 1],
+          [0.5, 0],
         ];
       },
     },
     "single-node"
   );
 
-export function createEndNode(id = uniqueId("add-node"), label = "添加节点") {
+export function createEndNode(id = uniqueId("add-node"), label = "结束节点") {
   return {
     id,
     type: typeEndNode,
+    nodeData: {
+      type: "end",
+      nodeId: id,
+    },
     label,
   };
 }
