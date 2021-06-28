@@ -1,8 +1,10 @@
 import G6 from "@antv/g6";
 import { onMounted, onUnmounted } from "vue";
 import { typeStartNode } from "@/pages/flow/nodes/startNode";
+import { typeAddNode } from "@/pages/flow/nodes/addNode";
+import { typeEndNode } from "@/pages/flow/nodes/endNode";
 
-export function initGraph(data, graphContainerId, miniMapContainerId, emit) {
+export function userGraph(data, graphContainerId, miniMapContainerId, emit) {
   const toolbar = new G6.ToolBar();
   // 实例化 minimap 插件
   const minimap = new G6.Minimap({
@@ -112,6 +114,12 @@ export function initGraph(data, graphContainerId, miniMapContainerId, emit) {
     switch (nodeItem.getModel().type) {
       case typeStartNode:
         emit("click:start-node", nodeItem.getModel());
+        break;
+      case typeAddNode:
+        emit("click:add-node", nodeItem.getModel());
+        break;
+      case typeEndNode:
+        emit("click:end-node", nodeItem.getModel());
         break;
       default:
         break;

@@ -25,7 +25,10 @@ import {
   createStartNode,
   registerStartNode,
 } from "@/pages/flow/nodes/startNode";
-import { handleResize, initGraph } from "@/pages/flow/graph/graph";
+import { handleResize, userGraph } from "@/pages/flow/graph/graph";
+import { createAddNode, registerAddNode } from "@/pages/flow/nodes/addNode";
+import { createEdge } from "@/pages/flow/graph/edges";
+import { createEndNode, registerEndNode } from "@/pages/flow/nodes/endNode";
 
 export default {
   name: "FlowGraph",
@@ -34,11 +37,18 @@ export default {
     const { graphData } = toRefs(props);
     const { emit } = context;
     registerStartNode();
+    registerAddNode();
+    registerEndNode();
+    let startNode = createStartNode({});
+    let addNode = createAddNode();
+    let endNode = createEndNode();
+    let edge = createEdge(startNode.id, addNode.id);
+    let edge1 = createEdge(addNode.id, endNode.id);
     const data = graphData.value || {
       // 点集
-      nodes: [createStartNode({})],
+      nodes: [startNode, addNode, endNode],
       // 边集
-      edges: [],
+      edges: [edge, edge1],
     };
 
     const graphContainerId = "flowGraph";
@@ -48,7 +58,7 @@ export default {
     handleResize(graphContainerId, graphRef);
 
     onMounted(() => {
-      graphRef.value = initGraph(
+      graphRef.value = userGraph(
         data,
         graphContainerId,
         miniMapContainerId,
