@@ -2,10 +2,10 @@ import G6 from "@antv/g6";
 import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
-export const typeAddNode = "addNode";
-export const registerAddNode = () =>
+export const typeAddConditionNode = "AddConditionNode";
+export const registerAddConditionNode = () =>
   G6.registerNode(
-    typeAddNode,
+    typeAddConditionNode,
     {
       options: {
         style: {},
@@ -25,49 +25,49 @@ export const registerAddNode = () =>
         cfg = Object.assign(
           {},
           {
+            size: [120, 55],
             label: "选择审批人",
             editable: true,
           },
           cfg
         );
+        const size = cfg.size;
         const mainId = cfg.id;
-        const r = 30;
-        const keyShape = group.addShape("circle", {
+        const width = parseInt(size[0]);
+        const height = parseInt(size[1]);
+        const baseX = -width / 2;
+        const baseY = -height / 2;
+        const keyShape = group.addShape("rect", {
           attrs: {
             id: mainId,
-            x: 0,
-            y: 0,
-            stroke: "#3292f0",
-            fill: "#3292f0", //此处必须有fill 不然不能触发事件
-            r: r,
+            x: baseX,
+            y: baseY,
+            width: width,
+            height: height,
+            stroke: "#ced4d9",
+            fill: "#ffffff", //此处必须有fill 不然不能触发事件
+            radius: height / 2,
             shadowColor: "#3333",
             shadowBlur: 4,
             shadowOffsetX: 4,
             shadowOffsetY: 4,
           },
         });
-        //绘制加号
-        let crossThickness = 3;
-        group.addShape("rect", {
+
+        //文字
+        group.addShape("text", {
           attrs: {
-            x: -r / 2,
-            y: -crossThickness / 2,
-            width: r,
-            height: crossThickness,
-            id: uniqueId("rect"),
-            fill: "white",
+            id: uniqueId("label"),
+            x: 0,
+            y: 0,
+            width: width,
+            height: height,
+            textAlign: "center",
+            textBaseline: "middle",
+            text: cfg.label,
+            fontSize: 20,
             parent: mainId,
-          },
-        });
-        group.addShape("rect", {
-          attrs: {
-            x: -crossThickness / 2,
-            y: -r / 2,
-            width: crossThickness,
-            height: r,
-            id: uniqueId("rect"),
-            fill: "white",
-            parent: mainId,
+            fill: "#3292f0",
           },
         });
 
@@ -144,23 +144,28 @@ export const registerAddNode = () =>
        * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
        */
       getAnchorPoints(cfg) {
-        //一个在顶部一个在底部
+        //两个锚点都在中心
         return [
-          [0.5, 0],
-          [0.5, 1],
+          [0.5, 0.5],
+          [0.5, 0.5],
         ];
       },
     },
     "single-node"
   );
 
-export function createAddNode(id = uniqueId("add-node"), label = "添加节点") {
+export function createAddConditionNode(
+  id = uniqueId("add-condition-node"),
+  label = "添加条件",
+  order = 0
+) {
   return {
     id,
-    type: typeAddNode,
+    type: typeAddConditionNode,
     nodeData: {
-      type: "add",
+      type: "add-condition",
       nodeId: id,
+      order,
     },
     label,
   };

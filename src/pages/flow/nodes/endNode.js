@@ -1,8 +1,8 @@
 import G6 from "@antv/g6";
-import { uniqueId } from "@/pages/flow/unique";
+import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
-export const typeEndNode = "endNode";
+export const typeEndNode = "EndNode";
 export const registerEndNode = () =>
   G6.registerNode(
     typeEndNode,
@@ -147,7 +147,7 @@ export const registerEndNode = () =>
     "single-node"
   );
 
-export function createEndNode(id = uniqueId("add-node"), label = "结束节点") {
+export function createEndNode(id = uniqueId("end-node"), label = "结束节点") {
   return {
     id,
     type: typeEndNode,

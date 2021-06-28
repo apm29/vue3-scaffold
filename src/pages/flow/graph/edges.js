@@ -1,4 +1,4 @@
-import { uniqueId } from "@/pages/flow/unique";
+import { uniqueId } from "../unique";
 
 export function createEdge(fromId, toId) {
   return {

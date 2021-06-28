@@ -1,5 +1,5 @@
 import G6 from "@antv/g6";
-import { uniqueId } from "@/pages/flow/unique";
+import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
 export const typeStartNode = "StartNode";

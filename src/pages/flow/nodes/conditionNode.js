@@ -2,10 +2,10 @@ import G6 from "@antv/g6";
 import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
-export const typeAddNode = "addNode";
-export const registerAddNode = () =>
+export const typeConditionNode = "ConditionNode";
+export const registerConditionNode = () =>
   G6.registerNode(
-    typeAddNode,
+    typeConditionNode,
     {
       options: {
         style: {},
@@ -25,49 +25,98 @@ export const registerAddNode = () =>
         cfg = Object.assign(
           {},
           {
+            size: [330, 95],
             label: "选择审批人",
             editable: true,
           },
           cfg
         );
+        const size = cfg.size;
         const mainId = cfg.id;
-        const r = 30;
-        const keyShape = group.addShape("circle", {
+        const width = parseInt(size[0]);
+        const height = parseInt(size[1]);
+        const baseX = -width / 2;
+        const baseY = -height / 2;
+        const keyShape = group.addShape("rect", {
           attrs: {
             id: mainId,
-            x: 0,
-            y: 0,
-            stroke: "#3292f0",
-            fill: "#3292f0", //此处必须有fill 不然不能触发事件
-            r: r,
+            x: baseX,
+            y: baseY,
+            width: width,
+            height: height,
+            stroke: "#ced4d9",
+            fill: "#ffffff", //此处必须有fill 不然不能触发事件
+            radius: 4,
             shadowColor: "#3333",
             shadowBlur: 4,
             shadowOffsetX: 4,
             shadowOffsetY: 4,
           },
         });
-        //绘制加号
-        let crossThickness = 3;
-        group.addShape("rect", {
+
+        const topHeight = height / 3;
+        //文字
+        group.addShape("text", {
           attrs: {
-            x: -r / 2,
-            y: -crossThickness / 2,
-            width: r,
-            height: crossThickness,
-            id: uniqueId("rect"),
-            fill: "white",
+            id: uniqueId("label"),
+            x: 0,
+            y: topHeight / 2,
+            width: width,
+            height: height - topHeight,
+            textAlign: "center",
+            textBaseline: "middle",
+            text: cfg.label,
+            fontSize: 18,
             parent: mainId,
+            fill: "#333",
           },
         });
-        group.addShape("rect", {
+
+        //top文字
+        group.addShape("text", {
           attrs: {
-            x: -crossThickness / 2,
-            y: -r / 2,
-            width: crossThickness,
-            height: r,
-            id: uniqueId("rect"),
-            fill: "white",
+            id: uniqueId("label"),
+            x: baseX + 10,
+            y: baseY + topHeight / 2,
+            width: width,
+            height: topHeight,
+            textAlign: "start",
+            textBaseline: "middle",
+            text: `条件${parseInt(cfg.nodeData.order) + 1}`,
+            fontSize: ((height - topHeight) / 2) * 0.6,
             parent: mainId,
+            fill: "#1db682",
+          },
+        });
+
+        //top文字
+        group.addShape("text", {
+          attrs: {
+            id: uniqueId("label"),
+            x: width / 2 - 10,
+            y: baseY + topHeight / 2,
+            width: width,
+            height: topHeight,
+            textAlign: "end",
+            textBaseline: "middle",
+            text: `优先级${parseInt(cfg.nodeData.order) + 1}`,
+            fontSize: ((height - topHeight) / 2) * 0.6,
+            parent: mainId,
+            fill: "#666",
+          },
+        });
+
+        //anchor
+        group.addShape("circle", {
+          attrs: {
+            id: uniqueId("circle"),
+            parent: mainId,
+            x: 0,
+            y: -baseY,
+            r: 5,
+            fill: "#ffffff",
+            stroke: "#4444",
+            opacity: 1,
           },
         });
 
@@ -144,9 +193,9 @@ export const registerAddNode = () =>
        * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
        */
       getAnchorPoints(cfg) {
-        //一个在顶部一个在底部
+        //两个锚点都在底部中心
         return [
-          [0.5, 0],
+          [0.5, 1],
           [0.5, 1],
         ];
       },
@@ -154,13 +203,18 @@ export const registerAddNode = () =>
     "single-node"
   );
 
-export function createAddNode(id = uniqueId("add-node"), label = "添加节点") {
+export function createConditionNode(
+  order = 0,
+  id = uniqueId("condition-node"),
+  label = "请设置条件"
+) {
   return {
     id,
-    type: typeAddNode,
+    type: typeConditionNode,
     nodeData: {
-      type: "add",
+      type: "condition",
       nodeId: id,
+      order,
     },
     label,
   };

@@ -3,6 +3,7 @@ import { onMounted, onUnmounted } from "vue";
 import { typeStartNode } from "@/pages/flow/nodes/startNode";
 import { typeAddNode } from "@/pages/flow/nodes/addNode";
 import { typeEndNode } from "@/pages/flow/nodes/endNode";
+import { typeAddConditionNode } from "@/pages/flow/nodes/addConditionNode";
 
 function createMiniMapPlugin(miniMapContainerId) {
   return new G6.Minimap({
@@ -27,17 +28,22 @@ function createGraph(graphContainerId, element, minimap, grid, toolbar) {
     height: element.clientHeight, // Number，必须，图的高度
     plugins: [minimap, grid, toolbar],
     enabledStack: true,
+    defaultEdge: {
+      type: "polyline",
+      color: "#4141e7",
+      lineWidth: 3,
+    },
     layout: {
       // Object，可选，布局的方法及其配置项，默认为 random 布局。
       type: "dagre", // 指定为力导向布局
       rankdir: "TB",
-      nodesep: 40,
-      ranksep: 30,
+      nodesep: 30,
+      ranksep: 20,
       controlPoints: true, // 是否保留布局连线的控制点
       workerEnabled: false, //是否启用 web-worker 以防布局计算时间过长阻塞页面交互
       sortByCombo: true, //同一层节点是否根据每个节点数据中的 comboId 进行排序，以防止 combo 重叠
       preventOverlap: true, // 防止节点重叠
-      nodeSize: [200, 150], // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
+      nodeSize: [380, 100], // 节点大小，用于算法中防止节点重叠时的碰撞检测。由于已经在上一节的元素配置中设置了每个节点的 size 属性，则不需要在此设置 nodeSize。
       linkDistance: 100, // 指定边距离为100
     },
     modes: {
@@ -62,8 +68,8 @@ function createGraph(graphContainerId, element, minimap, grid, toolbar) {
       },
       // 鼠标点击节点，即 click 状态为 true 时的样式
       click: {
-        stroke: "#4141e7",
-        lineWidth: 2,
+        stroke: "#1616cd",
+        lineWidth: 3,
       },
     },
     // 边不同状态下的样式集合
@@ -167,6 +173,9 @@ export function registerEvent(emit, graphRef, menuOption) {
       }
       case typeEndNode:
         emit("click:end-node", model);
+        break;
+      case typeAddConditionNode:
+        emit("click:add-condition-node", model);
         break;
       default:
         break;

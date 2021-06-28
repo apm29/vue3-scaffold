@@ -2,10 +2,10 @@ import G6 from "@antv/g6";
 import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
-export const typeAddNode = "addNode";
-export const registerAddNode = () =>
+export const typeCrossNode = "CrossNode";
+export const registerCrossNode = () =>
   G6.registerNode(
-    typeAddNode,
+    typeCrossNode,
     {
       options: {
         style: {},
@@ -25,7 +25,6 @@ export const registerAddNode = () =>
         cfg = Object.assign(
           {},
           {
-            label: "选择审批人",
             editable: true,
           },
           cfg
@@ -35,42 +34,15 @@ export const registerAddNode = () =>
         const keyShape = group.addShape("circle", {
           attrs: {
             id: mainId,
+            parent: mainId,
             x: 0,
             y: 0,
-            stroke: "#3292f0",
-            fill: "#3292f0", //此处必须有fill 不然不能触发事件
-            r: r,
-            shadowColor: "#3333",
-            shadowBlur: 4,
-            shadowOffsetX: 4,
-            shadowOffsetY: 4,
+            r: 5,
+            fill: "#ffffff",
+            stroke: "#4444",
+            opacity: 1,
           },
         });
-        //绘制加号
-        let crossThickness = 3;
-        group.addShape("rect", {
-          attrs: {
-            x: -r / 2,
-            y: -crossThickness / 2,
-            width: r,
-            height: crossThickness,
-            id: uniqueId("rect"),
-            fill: "white",
-            parent: mainId,
-          },
-        });
-        group.addShape("rect", {
-          attrs: {
-            x: -crossThickness / 2,
-            y: -r / 2,
-            width: crossThickness,
-            height: r,
-            id: uniqueId("rect"),
-            fill: "white",
-            parent: mainId,
-          },
-        });
-
         return keyShape;
       },
       /**
@@ -144,22 +116,25 @@ export const registerAddNode = () =>
        * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
        */
       getAnchorPoints(cfg) {
-        //一个在顶部一个在底部
+        //全部在中心
         return [
-          [0.5, 0],
-          [0.5, 1],
+          [0.5, 0.5],
+          [0.5, 0.5],
         ];
       },
     },
     "single-node"
   );
 
-export function createAddNode(id = uniqueId("add-node"), label = "添加节点") {
+export function createCrossNode(
+  id = uniqueId("cross-node"),
+  label = "交叉节点"
+) {
   return {
     id,
-    type: typeAddNode,
+    type: typeCrossNode,
     nodeData: {
-      type: "add",
+      type: "cross",
       nodeId: id,
     },
     label,

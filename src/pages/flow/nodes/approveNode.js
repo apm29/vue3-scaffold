@@ -1,5 +1,5 @@
 import G6 from "@antv/g6";
-import { uniqueId } from "@/pages/flow/unique";
+import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
 
 export const typeApproveNode = "ApproveNode";
@@ -224,14 +224,14 @@ export function createApproveNode(
     approveStatusText,
     formEditPermission = {},
   },
-  id = uniqueId("start-node"),
+  id = uniqueId("approve-node"),
   label = "审批节点"
 ) {
   return {
     id,
     type: typeApproveNode,
     nodeData: {
-      type: "start",
+      type: "approve",
       nodeId: id,
       nodeName,
       approveUserType,
