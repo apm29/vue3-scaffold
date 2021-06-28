@@ -16,69 +16,71 @@
         tw-bg-white
       "
     ></div>
-    <div
-      v-if="menuOption.show"
-      class="tw-absolute tw-z-10"
-      :style="{
-        left: `${menuOption.x}px`,
-        top: `${menuOption.y}px`,
-      }"
-    >
-      <div class="action-container">
-        <div
-          class="action-item tw-text-amber-500"
-          @click="
-            addApproveNode(
-              menuOption.nodeModel,
-              menuOption.node,
-              graphRef,
-              menuOption
-            )
-          "
-        >
-          <i class="mdi mdi-plus"></i>添加审批
-        </div>
-        <div
-          class="action-item tw-text-green-500"
-          @click="
-            addCopyNode(
-              menuOption.nodeModel,
-              menuOption.node,
-              graphRef,
-              menuOption
-            )
-          "
-        >
-          <i class="mdi mdi-plus"></i>添加抄送
-        </div>
-        <div
-          class="action-item tw-text-blue-500"
-          @click="
-            addActionNode(
-              menuOption.nodeModel,
-              menuOption.node,
-              graphRef,
-              menuOption
-            )
-          "
-        >
-          <i class="mdi mdi-plus"></i>添加办理
-        </div>
-        <div
-          class="action-item tw-text-red-500"
-          @click="
-            addConditionNode(
-              menuOption.nodeModel,
-              menuOption.node,
-              graphRef,
-              menuOption
-            )
-          "
-        >
-          <i class="mdi mdi-plus"></i>添加条件
+    <v-scale-transition>
+      <div
+        v-if="menuOption.show"
+        class="tw-absolute tw-z-10"
+        :style="{
+          left: `${menuOption.x}px`,
+          top: `${menuOption.y}px`,
+        }"
+      >
+        <div class="action-container">
+          <div
+            class="action-item tw-text-amber-500"
+            @click="
+              addApproveNode(
+                menuOption.nodeModel,
+                menuOption.node,
+                graphRef,
+                menuOption
+              )
+            "
+          >
+            <i class="mdi mdi-plus"></i>添加审批
+          </div>
+          <div
+            class="action-item tw-text-green-500"
+            @click="
+              addCopyNode(
+                menuOption.nodeModel,
+                menuOption.node,
+                graphRef,
+                menuOption
+              )
+            "
+          >
+            <i class="mdi mdi-plus"></i>添加抄送
+          </div>
+          <div
+            class="action-item tw-text-blue-500"
+            @click="
+              addActionNode(
+                menuOption.nodeModel,
+                menuOption.node,
+                graphRef,
+                menuOption
+              )
+            "
+          >
+            <i class="mdi mdi-plus"></i>添加办理
+          </div>
+          <div
+            class="action-item tw-text-red-500"
+            @click="
+              addConditionNode(
+                menuOption.nodeModel,
+                menuOption.node,
+                graphRef,
+                menuOption
+              )
+            "
+          >
+            <i class="mdi mdi-plus"></i>添加条件
+          </div>
         </div>
       </div>
-    </div>
+    </v-scale-transition>
   </div>
 </template>
 
