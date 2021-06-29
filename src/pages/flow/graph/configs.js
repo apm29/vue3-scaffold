@@ -1,3 +1,5 @@
+import { dialog } from "@/utils/dialog/dialog";
+
 export function onError(message) {
-  alert(message);
+  return dialog.alert(message);
 }

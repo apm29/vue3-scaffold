@@ -1,6 +1,8 @@
 import G6 from "@antv/g6";
 import { uniqueId } from "../unique";
 import chevron_right from "../icons/chevron_right.svg";
+import deleteIcon from "../icons/delete.svg";
+import deleteIconHover from "../icons/delete-hover.svg";
 
 export const typeApproveNode = "ApproveNode";
 export const registerApproveNode = () =>
@@ -103,6 +105,24 @@ export const registerApproveNode = () =>
           },
         });
 
+        //删除
+        const deleteIconSize = 20;
+        if (cfg.editable) {
+          group.addShape("image", {
+            attrs: {
+              id: uniqueId("image"),
+              x: baseX + width - deleteIconSize - 5,
+              y: baseY + (topHeight - deleteIconSize) / 2,
+              width: deleteIconSize,
+              height: deleteIconSize,
+              img: deleteIcon,
+              parent: mainId,
+              cursor: "pointer",
+            },
+            name: "approve-node-delete",
+          });
+        }
+
         //anchor
         group.addShape("circle", {
           attrs: {
@@ -162,16 +182,19 @@ export const registerApproveNode = () =>
         const group = node.getContainer();
         if (group.get("children") && group.get("children").length) {
           const shape = group.get("children")[0]; // 顺序根据 draw 时确定
+          const icon = group.get("children")[4]; // 顺序根据 draw 时确定
           if (name === "hover") {
             const hoverStyles = () => {
               shape.attr("shadowBlur", 10);
               shape.attr("shadowOffsetX", 8);
               shape.attr("shadowOffsetY", 8);
+              icon?.attr("img", deleteIconHover);
             };
             const unHoverStyles = () => {
               shape.attr("shadowBlur", 4);
               shape.attr("shadowOffsetX", 4);
               shape.attr("shadowOffsetY", 4);
+              icon?.attr("img", deleteIcon);
             };
             if (value) {
               hoverStyles();

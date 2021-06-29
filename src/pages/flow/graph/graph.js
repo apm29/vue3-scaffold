@@ -1,9 +1,11 @@
 import G6 from "@antv/g6";
 import { onMounted, onUnmounted } from "vue";
-import { typeStartNode } from "@/pages/flow/nodes/startNode";
-import { typeAddNode } from "@/pages/flow/nodes/addNode";
-import { typeEndNode } from "@/pages/flow/nodes/endNode";
-import { typeAddConditionNode } from "@/pages/flow/nodes/addConditionNode";
+import { typeStartNode } from "../nodes/startNode";
+import { typeAddNode } from "../nodes/addNode";
+import { typeEndNode } from "../nodes/endNode";
+import { typeAddConditionNode } from "../nodes/addConditionNode";
+import { addMoreConditionNode } from "../logic/add";
+import { deleteApproveNode } from "@/pages/flow/logic/delete";
 
 function createMiniMapPlugin(miniMapContainerId) {
   return new G6.Minimap({
@@ -132,12 +134,7 @@ export function handleResize(graphContainerId, graphRef) {
   });
 }
 
-export function registerEvent(
-  emit,
-  graphRef,
-  menuOption,
-  onAddMoreConditionNode
-) {
+export function registerEvent(emit, graphRef, menuOption) {
   const onMouseEnter = (e) => {
     const graph = graphRef.value;
     const nodeItem = e.item; // 获取鼠标进入的节点元素对象
@@ -180,7 +177,7 @@ export function registerEvent(
         emit("click:end-node", model);
         break;
       case typeAddConditionNode:
-        onAddMoreConditionNode(nodeItem, model, graph);
+        addMoreConditionNode(nodeItem, model, graph);
         emit("click:add-condition-node", model);
         break;
       default:
@@ -213,6 +210,11 @@ export function registerEvent(
     menuOption.show = false;
   };
 
+  const onDeleteApproveNode = async (e) => {
+    const graph = graphRef.value;
+    await deleteApproveNode(graph, e.item, e.item.getModel());
+  };
+
   onMounted(() => {
     const graph = graphRef.value;
     // 鼠标进入节点
@@ -225,6 +227,8 @@ export function registerEvent(
     graph.on("edge:click", onEdgeClick);
     //画布点击事件
     graph.on("canvas:click", onCanvasClick);
+    //删除审批节点
+    graph.on("approve-node-delete:click", onDeleteApproveNode);
   });
 
   onUnmounted(() => {
@@ -239,5 +243,7 @@ export function registerEvent(
     graph.off("edge:click", onEdgeClick);
     //画布点击事件
     graph.off("canvas:click", onCanvasClick);
+    //删除审批节点
+    graph.off("approve-node-delete:click", onDeleteApproveNode);
   });
 }
