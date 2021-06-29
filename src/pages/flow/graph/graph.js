@@ -132,7 +132,12 @@ export function handleResize(graphContainerId, graphRef) {
   });
 }
 
-export function registerEvent(emit, graphRef, menuOption) {
+export function registerEvent(
+  emit,
+  graphRef,
+  menuOption,
+  onAddMoreConditionNode
+) {
   const onMouseEnter = (e) => {
     const graph = graphRef.value;
     const nodeItem = e.item; // 获取鼠标进入的节点元素对象
@@ -175,6 +180,7 @@ export function registerEvent(emit, graphRef, menuOption) {
         emit("click:end-node", model);
         break;
       case typeAddConditionNode:
+        onAddMoreConditionNode(nodeItem, model, graph);
         emit("click:add-condition-node", model);
         break;
       default:

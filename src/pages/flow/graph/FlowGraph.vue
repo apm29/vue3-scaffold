@@ -136,8 +136,13 @@ export default {
     handleResize(graphContainerId, graphRef);
 
     //新增审批节点
-    const { addApproveNode, addActionNode, addCopyNode, addConditionNode } =
-      addLogic;
+    const {
+      addApproveNode,
+      addActionNode,
+      addCopyNode,
+      addConditionNode,
+      addMoreConditionNode,
+    } = addLogic;
 
     onMounted(() => {
       console.log(emit, graphRef);
@@ -155,7 +160,7 @@ export default {
       nodeModel: null,
     });
 
-    registerEvent(emit, graphRef, menuOption);
+    registerEvent(emit, graphRef, menuOption, addMoreConditionNode);
 
     return {
       graphContainerId,
