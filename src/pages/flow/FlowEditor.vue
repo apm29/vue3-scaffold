@@ -10,8 +10,11 @@
     >
     </FlowGraph>
     <v-btn class="tw-fixed tw-bottom-4 tw-right-4" @click="add">ADD</v-btn>
-    <div class="tw-w-40 tw-h-40 overflow-auto tw-fixed tw-top-4 tw-right-4">
-      {{ graphData.nodes.map((it) => it.id) }}
+    <div
+      v-if="false"
+      class="tw-w-40 tw-h-40 overflow-auto tw-fixed tw-top-4 tw-right-4"
+    >
+      {{ graphData && graphData.nodes.map((it) => it.id) }}
     </div>
   </div>
 </template>
@@ -34,7 +37,7 @@ export default {
     },
     add() {
       this.graphData.nodes.push(createApproveNode({}, false));
-      this.$refs.graph.read(this.graphData);
+      //this.$refs.graph.read(this.graphData);
     },
   },
 };

@@ -81,6 +81,9 @@
         </div>
       </div>
     </v-scale-transition>
+    <div class="tw-w-40 tw-h-40 overflow-auto tw-fixed tw-top-4 tw-right-4">
+      {{ internalData && internalData.nodes.map((it) => it.id) }}
+    </div>
   </div>
 </template>
 
@@ -163,35 +166,65 @@ export default {
       if (toRaw(oldValue) === undefined) {
         return false;
       }
-      return (
-        {
-          nodes: toRaw(newValue).nodes.sort(),
-          edges: toRaw(newValue).edges.sort(),
-        }.toString() ===
-        {
-          nodes: toRaw(oldValue).nodes.sort(),
-          edges: toRaw(oldValue).edges.sort(),
-        }.toString()
-      );
+      console.log("old", JSON.stringify(oldValue.nodes.map((it) => it.id)));
+      console.log("new", JSON.stringify(newValue.nodes.map((it) => it.id)));
+      let newString = JSON.stringify({
+        nodes: newValue.nodes.sort(),
+        edges: newValue.edges.sort(),
+      });
+      let oldString = JSON.stringify({
+        nodes: oldValue.nodes.sort(),
+        edges: oldValue.edges.sort(),
+      });
+      return newString === oldString;
     }
 
     const internalData = computed({
       get: function () {
         console.log("get");
-        return graphData.value || createDefaultData();
+        return graphData.value;
       },
       set(value) {
-        console.log(value);
+        let equal = isGraphDataEqual(value, graphData.value);
+        console.log(equal);
+        if (equal) {
+          return;
+        }
+        console.log(
+          "set",
+          JSON.stringify(value && value.nodes.map((it) => it.id))
+        );
         emit("update:graphData", value);
       },
     });
+
+    const internalGraphData = computed(() => {
+      return graphData.value && JSON.parse(JSON.stringify(graphData.value));
+    });
+
+    watch(
+      internalGraphData,
+      (value, oldValue) => {
+        let equal = isGraphDataEqual(value, oldValue);
+        console.log(equal);
+        if (equal) {
+          return;
+        }
+        console.log("read", value.nodes);
+        graphRef.value.read({
+          edges: value.edges,
+          nodes: value.nodes,
+        });
+      },
+      { deep: true }
+    );
 
     const graphContainerId = "flowGraph";
     const miniMapContainerId = "miniMap";
     const graphRef = shallowRef(null);
 
     userGraph(
-      internalData.value,
+      internalData.value || createDefaultData(),
       graphContainerId,
       miniMapContainerId,
       graphRef
@@ -202,7 +235,6 @@ export default {
     const { addApproveNode, addActionNode, addCopyNode, addConditionNode } =
       addLogic;
 
-    emit("update:graphData", internalData.value);
     onMounted(() => {
       const graph = graphRef.value;
       const onUpdateInternalData = () => {

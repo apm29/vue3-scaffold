@@ -34,6 +34,8 @@
     <v-btn @click="testDialog()">program-dialog</v-btn>
     <v-btn @click="testDialog2()">program-dialog2</v-btn>
     <v-btn @click="test()">test-network</v-btn>
+    <ModelInput :boolean-value="testValue"></ModelInput>
+    <v-btn @click="testValue.a = [1, 2, 3]">test-value</v-btn>
   </div>
 </template>
 
@@ -44,13 +46,17 @@ import { dialog } from "@/utils/dialog/dialog";
 import remote from "@/utils/remote/remote";
 import axios from "axios";
 import { delay } from "@/utils/functions";
+import ModelInput from "@/components/ModelInput.vue";
 export default {
   name: "Home",
-  components: { VerifyCodeField },
+  components: { ModelInput, VerifyCodeField },
   data: () => ({
     code: "3333",
     validate: false,
     show: false,
+    testValue: {
+      a: [],
+    },
     rules: [
       (v) => Boolean(v) || "验证码不能为空",
       (v) => v.length === 6 || "必须为6位验证码",
