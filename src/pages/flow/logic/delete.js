@@ -88,6 +88,14 @@ export async function deleteConditionNode(graph, node, model) {
         graph.removeItem(edge);
       });
       graph.removeItem(node);
+      //重新计算order
+      siblingNodes
+        .filter((it) => !it.destroyed)
+        .forEach((sibling, index) => {
+          graph.updateItem(sibling.get("id"), {
+            order: index,
+          });
+        });
     }
     graph.updateLayout({});
   } else {

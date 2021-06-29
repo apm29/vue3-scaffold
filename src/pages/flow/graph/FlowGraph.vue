@@ -16,6 +16,18 @@
         tw-bg-white
       "
     ></div>
+    <div
+      class="
+        tw-absolute
+        tw-right-4
+        tw-bottom-4
+        tw-shadow-lg
+        tw-ring-1
+        tw-ring-blue-800
+        tw-rounded-lg
+        tw-bg-white
+      "
+    ></div>
     <v-scale-transition>
       <div
         v-if="menuOption.show"
@@ -85,7 +97,14 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted, reactive, shallowRef, toRefs } from "vue";
+import {
+  onMounted,
+  onUnmounted,
+  reactive,
+  shallowRef,
+  toRefs,
+  watch,
+} from "vue";
 import { createStartNode, registerStartNode } from "../nodes/startNode";
 import { handleResize, registerEvent, userGraph } from "../graph/graph";
 import { createAddNode, registerAddNode } from "../nodes/addNode";
@@ -105,6 +124,7 @@ export default {
     "click:start-node",
     "click:add-node",
     "click:add-condition-node",
+    "update:graphData",
   ],
   setup(props, context) {
     const { graphData } = toRefs(props);
@@ -128,6 +148,8 @@ export default {
       edges: [edge, edge1],
     };
 
+    const internalData = reactive(data);
+
     const graphContainerId = "flowGraph";
     const miniMapContainerId = "miniMap";
     const graphRef = shallowRef(null);
@@ -140,9 +162,24 @@ export default {
       addLogic;
 
     onMounted(() => {
-      console.log(emit, graphRef);
-      graphRef.value.on("node");
+      const graph = graphRef.value;
+      const onUpdateInternalData = () => {
+        let newData = graph.save();
+        internalData.edges = newData.edges;
+        internalData.nodes = newData.nodes;
+      };
+      graph.on("afteradditem", onUpdateInternalData);
+      graph.on("afterremoveitem", onUpdateInternalData);
+      graph.on("afterupdateitem", onUpdateInternalData);
     });
+
+    watch(
+      internalData,
+      (newValue) => {
+        emit("update:graphData", newValue);
+      },
+      { deep: true, immediate: true }
+    );
 
     onUnmounted(() => {
       console.log(emit, graphRef);
@@ -162,6 +199,7 @@ export default {
       miniMapContainerId,
       menuOption,
       graphRef,
+      internalData,
       addApproveNode,
       addActionNode,
       addCopyNode,
