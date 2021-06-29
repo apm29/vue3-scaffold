@@ -1,6 +1,10 @@
 //递归方式寻找LCA(最近共同父节点(这里是向下找共同的crossNode))
 import { typeCrossNode } from "@/pages/flow/nodes/crossNode";
 import { onError } from "@/pages/flow/graph/configs";
+import { createStartNode } from "@/pages/flow/nodes/startNode";
+import { createAddNode } from "@/pages/flow/nodes/addNode";
+import { createEndNode } from "@/pages/flow/nodes/endNode";
+import { createEdge } from "@/pages/flow/graph/edges";
 
 export const findNearestCrossNode = (
   graph,
@@ -93,4 +97,30 @@ export function doDelete(graph, startNode, stopNode) {
     .forEach((node) => {
       graph.removeItem(node);
     });
+}
+
+export function createDefaultData(editable) {
+  if (editable) {
+    let startNode = createStartNode({}, editable.value);
+    let addNode = createAddNode();
+    let endNode = createEndNode();
+    let edge = createEdge(startNode.id, addNode.id);
+    let edge1 = createEdge(addNode.id, endNode.id);
+    return {
+      // 点集
+      nodes: [startNode, addNode, endNode],
+      // 边集
+      edges: [edge, edge1],
+    };
+  } else {
+    let startNode = createStartNode({}, editable.value);
+    let endNode = createEndNode();
+    let edge = createEdge(startNode.id, endNode.id);
+    return {
+      // 点集
+      nodes: [startNode, endNode],
+      // 边集
+      edges: [edge],
+    };
+  }
 }

@@ -109,6 +109,7 @@ import * as addLogic from "../logic/add";
 import { registerConditionNode } from "../nodes/conditionNode";
 import { registerAddConditionNode } from "../nodes/addConditionNode";
 import { registerCrossNode } from "../nodes/crossNode";
+import { createDefaultData } from "@/pages/flow/logic/common";
 
 export default {
   name: "FlowGraph",
@@ -131,100 +132,21 @@ export default {
     registerAddConditionNode();
     registerCrossNode();
 
-    function createDefaultData() {
-      if (editable.value) {
-        let startNode = createStartNode({}, editable.value);
-        let addNode = createAddNode();
-        let endNode = createEndNode();
-        let edge = createEdge(startNode.id, addNode.id);
-        let edge1 = createEdge(addNode.id, endNode.id);
-        return {
-          // 点集
-          nodes: [startNode, addNode, endNode],
-          // 边集
-          edges: [edge, edge1],
-        };
-      } else {
-        let startNode = createStartNode({}, editable.value);
-        let endNode = createEndNode();
-        let edge = createEdge(startNode.id, endNode.id);
-        return {
-          // 点集
-          nodes: [startNode, endNode],
-          // 边集
-          edges: [edge],
-        };
-      }
-    }
-    function isGraphDataEqual(newValue, oldValue) {
-      if (toRaw(newValue) === toRaw(oldValue)) {
-        return true;
-      }
-      if (toRaw(newValue) === undefined) {
-        return false;
-      }
-      if (toRaw(oldValue) === undefined) {
-        return false;
-      }
-      console.log("old", JSON.stringify(oldValue.nodes.map((it) => it.id)));
-      console.log("new", JSON.stringify(newValue.nodes.map((it) => it.id)));
-      let newString = JSON.stringify({
-        nodes: newValue.nodes.sort(),
-        edges: newValue.edges.sort(),
-      });
-      let oldString = JSON.stringify({
-        nodes: oldValue.nodes.sort(),
-        edges: oldValue.edges.sort(),
-      });
-      return newString === oldString;
-    }
-
     const internalData = computed({
       get: function () {
-        console.log("get");
         return graphData.value;
       },
       set(value) {
-        let equal = isGraphDataEqual(value, graphData.value);
-        console.log(equal);
-        if (equal) {
-          return;
-        }
-        console.log(
-          "set",
-          JSON.stringify(value && value.nodes.map((it) => it.id))
-        );
         emit("update:graphData", value);
       },
     });
-
-    const internalGraphData = computed(() => {
-      return graphData.value && JSON.parse(JSON.stringify(graphData.value));
-    });
-
-    watch(
-      internalGraphData,
-      (value, oldValue) => {
-        let equal = isGraphDataEqual(value, oldValue);
-        console.log(equal);
-        if (equal) {
-          return;
-        }
-        console.log("read", value.nodes);
-        graphRef.value.read({
-          edges: value.edges,
-          nodes: value.nodes,
-        });
-      },
-      { deep: true }
-    );
 
     const graphContainerId = "flowGraph";
     const miniMapContainerId = "miniMap";
     const graphRef = shallowRef(null);
 
     userGraph(
-      internalData.value || createDefaultData(),
+      internalData.value || createDefaultData(editable.value),
       graphContainerId,
       miniMapContainerId,
       graphRef
