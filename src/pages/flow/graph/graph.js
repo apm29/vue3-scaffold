@@ -5,7 +5,10 @@ import { typeAddNode } from "../nodes/addNode";
 import { typeEndNode } from "../nodes/endNode";
 import { typeAddConditionNode } from "../nodes/addConditionNode";
 import { addMoreConditionNode } from "../logic/add";
-import { deleteApproveNode } from "@/pages/flow/logic/delete";
+import {
+  deleteApproveNode,
+  deleteConditionNode,
+} from "@/pages/flow/logic/delete";
 
 function createMiniMapPlugin(miniMapContainerId) {
   return new G6.Minimap({
@@ -214,6 +217,10 @@ export function registerEvent(emit, graphRef, menuOption) {
     const graph = graphRef.value;
     await deleteApproveNode(graph, e.item, e.item.getModel());
   };
+  const onDeleteConditionNode = async (e) => {
+    const graph = graphRef.value;
+    await deleteConditionNode(graph, e.item, e.item.getModel());
+  };
 
   onMounted(() => {
     const graph = graphRef.value;
@@ -229,6 +236,8 @@ export function registerEvent(emit, graphRef, menuOption) {
     graph.on("canvas:click", onCanvasClick);
     //删除审批节点
     graph.on("approve-node-delete:click", onDeleteApproveNode);
+    //删除条件节点
+    graph.on("condition-node-delete:click", onDeleteConditionNode);
   });
 
   onUnmounted(() => {
@@ -245,5 +254,7 @@ export function registerEvent(emit, graphRef, menuOption) {
     graph.off("canvas:click", onCanvasClick);
     //删除审批节点
     graph.off("approve-node-delete:click", onDeleteApproveNode);
+    //删除条件节点
+    graph.off("condition-node-delete:click", onDeleteConditionNode);
   });
 }

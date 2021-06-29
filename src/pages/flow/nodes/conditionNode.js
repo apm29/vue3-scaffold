@@ -1,6 +1,7 @@
 import G6 from "@antv/g6";
 import { uniqueId } from "../unique";
-import chevron_right from "../icons/chevron_right.svg";
+import deleteIcon from "@/pages/flow/icons/delete.svg";
+import deleteIconHover from "@/pages/flow/icons/delete-hover.svg";
 
 export const typeConditionNode = "ConditionNode";
 export const registerConditionNode = () =>
@@ -89,11 +90,29 @@ export const registerConditionNode = () =>
           },
         });
 
+        //删除
+        const deleteIconSize = 20;
+        if (cfg.editable) {
+          group.addShape("image", {
+            attrs: {
+              id: uniqueId("image"),
+              x: baseX + width - deleteIconSize - 5,
+              y: baseY + (topHeight - deleteIconSize) / 2,
+              width: deleteIconSize,
+              height: deleteIconSize,
+              img: deleteIcon,
+              parent: mainId,
+              cursor: "pointer",
+            },
+            name: "condition-node-delete",
+          });
+        }
+
         //top文字
         group.addShape("text", {
           attrs: {
             id: uniqueId("label"),
-            x: width / 2 - 10,
+            x: width / 2 - 10 - deleteIconSize,
             y: baseY + topHeight / 2,
             width: width,
             height: topHeight,
@@ -153,16 +172,19 @@ export const registerConditionNode = () =>
         const group = node.getContainer();
         if (group.get("children") && group.get("children").length) {
           const shape = group.get("children")[0]; // 顺序根据 draw 时确定
+          const close = group.get("children")[3]; // 顺序根据 draw 时确定
           if (name === "hover") {
             const hoverStyles = () => {
               shape.attr("shadowBlur", 10);
               shape.attr("shadowOffsetX", 8);
               shape.attr("shadowOffsetY", 8);
+              close?.attr("img", deleteIconHover);
             };
             const unHoverStyles = () => {
               shape.attr("shadowBlur", 4);
               shape.attr("shadowOffsetX", 4);
               shape.attr("shadowOffsetY", 4);
+              close?.attr("img", deleteIcon);
             };
             if (value) {
               hoverStyles();
