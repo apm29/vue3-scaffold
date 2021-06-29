@@ -1,21 +1,21 @@
 <template>
   <label class="tw-flex tw-flex-nowrap tw-justify-center">
     <input
-        :value="nonNullValue(captcha[index])"
-        class="input-cell"
-        v-for="(value, index) in size"
-        :key="value"
-        @keydown="
+      :value="nonNullValue(captcha[index])"
+      class="input-cell"
+      v-for="(value, index) in size"
+      :key="value"
+      @keydown="
         (event) =>
           !internalReadOnly && !internalDisabled && onAnyKeyDown(index, event)
       "
-        maxlength="1"
-        ref="input"
-        :disabled="internalDisabled"
-        :readonly="internalReadOnly"
-        v-bind="$attrs"
-        :placeholder="placeholder && placeholder[index]"
-        autocapitalize="characters"
+      maxlength="1"
+      ref="input"
+      :disabled="internalDisabled"
+      :readonly="internalReadOnly"
+      v-bind="$attrs"
+      :placeholder="placeholder && placeholder[index]"
+      autocapitalize="characters"
     />
   </label>
   <v-slide-y-reverse-transition>
@@ -78,13 +78,13 @@ export default {
       }
     });
     watch(
-        value,
-        (newValue, oldValue) => {
-          if (newValue && newValue !== oldValue) {
-            captcha.value = String(newValue).split("");
-          }
-        },
-        { immediate: true }
+      value,
+      (newValue, oldValue) => {
+        if (newValue && newValue !== oldValue) {
+          captcha.value = String(newValue).split("");
+        }
+      },
+      { immediate: true }
     );
 
     const nonNullValue = function (value) {
@@ -98,10 +98,10 @@ export default {
     let onAnyKeyDown = function (index, event) {
       let input = event.target;
       if (
-          captcha.value[index] !== event.key &&
-          event.key.length === 1 &&
-          !event.metaKey &&
-          !event.ctrlKey
+        captcha.value[index] !== event.key &&
+        event.key.length === 1 &&
+        !event.metaKey &&
+        !event.ctrlKey
       ) {
         captcha.value[index] = event.key;
         event.preventDefault();
@@ -121,15 +121,15 @@ export default {
       }
 
       if (
-          event.target.nextSibling &&
-          event.target.nextSibling.focus &&
-          event.key.length === 1
+        event.target.nextSibling &&
+        event.target.nextSibling.focus &&
+        event.key.length === 1
       ) {
         event.target.nextSibling.focus();
       }
       internalValue.value = captcha.value
-      .map((it) => (it !== undefined && it !== null ? it : " "))
-      .join("");
+        .map((it) => (it !== undefined && it !== null ? it : " "))
+        .join("");
     };
     //endregion
 
@@ -149,10 +149,10 @@ export default {
     });
     let hasError = computed(() => Boolean(error.value));
     let internalReadOnly = computed(
-        () => Boolean(readonly.value) || Boolean(form.readonly)
+      () => Boolean(readonly.value) || Boolean(form.readonly)
     );
     let internalDisabled = computed(
-        () => Boolean(disabled.value) || Boolean(form.disabled)
+      () => Boolean(disabled.value) || Boolean(form.disabled)
     );
 
     let validate = function () {
@@ -163,16 +163,16 @@ export default {
       for (let index = 0; index < rules.value.length; index++) {
         const rule = rules.value[index];
         const valid =
-            typeof rule === "function"
-                ? rule(internalValue.value.replaceAll(/\s+/g, ""))
-                : rule;
+          typeof rule === "function"
+            ? rule(internalValue.value.replaceAll(/\s+/g, ""))
+            : rule;
 
         if (valid === false || typeof valid === "string") {
           errorBucket.push(valid || "");
         } else if (typeof valid !== "boolean") {
           console.warn(
-              `Rules should return a string or boolean, received '${typeof valid}' instead`,
-              componentInternalInstance
+            `Rules should return a string or boolean, received '${typeof valid}' instead`,
+            componentInternalInstance
           );
         }
       }

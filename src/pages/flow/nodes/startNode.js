@@ -224,6 +224,7 @@ export function createStartNode(
     approveStatusText,
     formEditPermission = {},
   },
+  editable = true,
   id = uniqueId("start-node"),
   label = "开始节点"
 ) {
@@ -243,6 +244,7 @@ export function createStartNode(
       approveStatusText,
       formEditPermission,
     },
+    editable,
     label,
   };
 }

@@ -227,6 +227,7 @@ export const registerConditionNode = () =>
 
 export function createConditionNode(
   order = 0,
+  editable = true,
   id = uniqueId("condition-node"),
   label = "请设置条件"
 ) {
@@ -238,6 +239,7 @@ export function createConditionNode(
       nodeId: id,
       order,
     },
+    editable,
     label,
   };
 }

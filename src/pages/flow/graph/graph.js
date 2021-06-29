@@ -130,6 +130,7 @@ export function handleResize(graphContainerId, graphRef) {
     }
   };
   onMounted(() => {
+    onResize();
     window.addEventListener("resize", onResize);
   });
   onUnmounted(() => {
@@ -161,7 +162,7 @@ export function registerEvent(emit, graphRef, menuOption) {
     if (clickNodes.find((it) => it.id === nodeItem.id)) {
       return;
     }
-
+    graph.setItemState(nodeItem, "click", true); // 设置当前节点的 click 状态为 true
     let model = nodeItem.getModel();
     switch (model.type) {
       case typeStartNode:
@@ -186,7 +187,6 @@ export function registerEvent(emit, graphRef, menuOption) {
       default:
         break;
     }
-    graph.setItemState(nodeItem, "click", true); // 设置当前节点的 click 状态为 true
   };
 
   const onEdgeClick = (e) => {

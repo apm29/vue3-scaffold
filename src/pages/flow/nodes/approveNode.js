@@ -247,6 +247,7 @@ export function createApproveNode(
     approveStatusText,
     formEditPermission = {},
   },
+  editable = true,
   id = uniqueId("approve-node"),
   label = "审批节点"
 ) {
@@ -266,6 +267,7 @@ export function createApproveNode(
       approveStatusText,
       formEditPermission,
     },
+    editable,
     label,
   };
 }

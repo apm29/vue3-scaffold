@@ -16,18 +16,6 @@
         tw-bg-white
       "
     ></div>
-    <div
-      class="
-        tw-absolute
-        tw-right-4
-        tw-bottom-4
-        tw-shadow-lg
-        tw-ring-1
-        tw-ring-blue-800
-        tw-rounded-lg
-        tw-bg-white
-      "
-    ></div>
     <v-scale-transition>
       <div
         v-if="menuOption.show"
@@ -98,10 +86,13 @@
 
 <script>
 import {
+  computed,
+  nextTick,
   onMounted,
   onUnmounted,
   reactive,
   shallowRef,
+  toRaw,
   toRefs,
   watch,
 } from "vue";
@@ -118,7 +109,7 @@ import { registerCrossNode } from "../nodes/crossNode";
 
 export default {
   name: "FlowGraph",
-  props: ["graphData"],
+  props: ["graphData", "editable"],
   emits: [
     "click:end-node",
     "click:start-node",
@@ -127,7 +118,7 @@ export default {
     "update:graphData",
   ],
   setup(props, context) {
-    const { graphData } = toRefs(props);
+    const { graphData, editable } = toRefs(props);
     const { emit } = context;
     registerStartNode();
     registerAddNode();
@@ -136,53 +127,93 @@ export default {
     registerConditionNode();
     registerAddConditionNode();
     registerCrossNode();
-    let startNode = createStartNode({});
-    let addNode = createAddNode();
-    let endNode = createEndNode();
-    let edge = createEdge(startNode.id, addNode.id);
-    let edge1 = createEdge(addNode.id, endNode.id);
-    const data = graphData.value || {
-      // 点集
-      nodes: [startNode, addNode, endNode],
-      // 边集
-      edges: [edge, edge1],
-    };
 
-    const internalData = reactive(data);
+    function createDefaultData() {
+      if (editable.value) {
+        let startNode = createStartNode({}, editable.value);
+        let addNode = createAddNode();
+        let endNode = createEndNode();
+        let edge = createEdge(startNode.id, addNode.id);
+        let edge1 = createEdge(addNode.id, endNode.id);
+        return {
+          // 点集
+          nodes: [startNode, addNode, endNode],
+          // 边集
+          edges: [edge, edge1],
+        };
+      } else {
+        let startNode = createStartNode({}, editable.value);
+        let endNode = createEndNode();
+        let edge = createEdge(startNode.id, endNode.id);
+        return {
+          // 点集
+          nodes: [startNode, endNode],
+          // 边集
+          edges: [edge],
+        };
+      }
+    }
+    function isGraphDataEqual(newValue, oldValue) {
+      if (toRaw(newValue) === toRaw(oldValue)) {
+        return true;
+      }
+      if (toRaw(newValue) === undefined) {
+        return false;
+      }
+      if (toRaw(oldValue) === undefined) {
+        return false;
+      }
+      return (
+        {
+          nodes: toRaw(newValue).nodes.sort(),
+          edges: toRaw(newValue).edges.sort(),
+        }.toString() ===
+        {
+          nodes: toRaw(oldValue).nodes.sort(),
+          edges: toRaw(oldValue).edges.sort(),
+        }.toString()
+      );
+    }
+
+    const internalData = computed({
+      get: function () {
+        console.log("get");
+        return graphData.value || createDefaultData();
+      },
+      set(value) {
+        console.log(value);
+        emit("update:graphData", value);
+      },
+    });
 
     const graphContainerId = "flowGraph";
     const miniMapContainerId = "miniMap";
     const graphRef = shallowRef(null);
 
-    userGraph(data, graphContainerId, miniMapContainerId, graphRef);
+    userGraph(
+      internalData.value,
+      graphContainerId,
+      miniMapContainerId,
+      graphRef
+    );
     handleResize(graphContainerId, graphRef);
 
     //新增审批节点
     const { addApproveNode, addActionNode, addCopyNode, addConditionNode } =
       addLogic;
 
+    emit("update:graphData", internalData.value);
     onMounted(() => {
       const graph = graphRef.value;
       const onUpdateInternalData = () => {
         let newData = graph.save();
-        internalData.edges = newData.edges;
-        internalData.nodes = newData.nodes;
+        internalData.value = {
+          edges: newData.edges,
+          nodes: newData.nodes,
+        };
       };
-      graph.on("afteradditem", onUpdateInternalData);
-      graph.on("afterremoveitem", onUpdateInternalData);
-      graph.on("afterupdateitem", onUpdateInternalData);
-    });
-
-    watch(
-      internalData,
-      (newValue) => {
-        emit("update:graphData", newValue);
-      },
-      { deep: true, immediate: true }
-    );
-
-    onUnmounted(() => {
-      console.log(emit, graphRef);
+      graph.on("afterrender", onUpdateInternalData);
+      graph.on("afterlayout", onUpdateInternalData);
     });
 
     const menuOption = reactive({
@@ -194,6 +225,11 @@ export default {
 
     registerEvent(emit, graphRef, menuOption);
 
+    const read = (data) => {
+      const graph = graphRef.value;
+      graph?.read(data);
+    };
+
     return {
       graphContainerId,
       miniMapContainerId,
@@ -204,6 +240,7 @@ export default {
       addActionNode,
       addCopyNode,
       addConditionNode,
+      read,
     };
   },
 };

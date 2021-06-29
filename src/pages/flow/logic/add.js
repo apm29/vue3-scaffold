@@ -12,8 +12,7 @@ export const addApproveNode = (model, node, graph, menuOption) => {
   graph.setItemState(node, "click", false);
   let outEdges = node.getOutEdges();
   if (!outEdges || !outEdges.length) {
-    onError(`添加节点-${model.id} 不存在OutEdges`);
-    return;
+    return onError(`添加节点-${model.id} 不存在OutEdges`);
   }
   const approveNode = createApproveNode({});
   const addNode = createAddNode();
@@ -43,8 +42,7 @@ export const addConditionNode = (model, node, graph, menuOption) => {
   const addConditionNode = createAddConditionNode();
   let outEdges = node.getOutEdges();
   if (!outEdges || !outEdges.length) {
-    onError(`添加节点-${model.id} 不存在OutEdges`);
-    return;
+    return onError(`添加节点-${model.id} 不存在OutEdges`);
   }
   graph.addItem("node", conditionNode1);
   graph.addItem("node", conditionNode2);

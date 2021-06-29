@@ -55,21 +55,23 @@ export const registerAddConditionNode = () =>
         });
 
         //文字
-        group.addShape("text", {
-          attrs: {
-            id: uniqueId("label"),
-            x: 0,
-            y: 0,
-            width: width,
-            height: height,
-            textAlign: "center",
-            textBaseline: "middle",
-            text: cfg.label,
-            fontSize: 20,
-            parent: mainId,
-            fill: "#3292f0",
-          },
-        });
+        if (cfg.editable) {
+          group.addShape("text", {
+            attrs: {
+              id: uniqueId("label"),
+              x: 0,
+              y: 0,
+              width: width,
+              height: height,
+              textAlign: "center",
+              textBaseline: "middle",
+              text: cfg.label,
+              fontSize: 20,
+              parent: mainId,
+              fill: "#3292f0",
+            },
+          });
+        }
 
         return keyShape;
       },
@@ -157,7 +159,7 @@ export const registerAddConditionNode = () =>
 export function createAddConditionNode(
   id = uniqueId("add-condition-node"),
   label = "添加条件",
-  order = 0
+  editable = true
 ) {
   return {
     id,
@@ -165,8 +167,8 @@ export function createAddConditionNode(
     nodeData: {
       type: "add-condition",
       nodeId: id,
-      order,
     },
+    editable,
     label,
   };
 }
