@@ -5,10 +5,17 @@
       @click:start-node="log"
       @click:add-node="log"
       v-model:graph-data="graphData"
-      :editable="true"
+      :editable="false"
       ref="graph"
     >
     </FlowGraph>
+    <v-btn class="tw-fixed tw-bottom-4 tw-right-4" @click="add">ADD</v-btn>
+    <div
+      v-if="false"
+      class="tw-w-40 tw-h-40 overflow-auto tw-fixed tw-top-4 tw-right-4"
+    >
+      {{ graphData && graphData.nodes.map((it) => it.id) }}
+    </div>
   </div>
 </template>
 
@@ -21,12 +28,18 @@ export default {
   components: { FlowGraph },
   data() {
     return {
-      graphData: undefined,
+      graphData: {
+        nodes: [],
+      },
     };
   },
   methods: {
     log() {
       console.log(this.graphData);
+    },
+    add() {
+      this.graphData.nodes.push(createApproveNode({}, false));
+      //this.$refs.graph.read(this.graphData);
     },
   },
 };

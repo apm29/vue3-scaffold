@@ -93,7 +93,9 @@ export async function deleteConditionNode(graph, node, model) {
         .filter((it) => !it.destroyed)
         .forEach((sibling, index) => {
           graph.updateItem(sibling.get("id"), {
-            order: index,
+            nodeData: {
+              order: index,
+            },
           });
         });
     }

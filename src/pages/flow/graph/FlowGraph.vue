@@ -81,29 +81,23 @@
         </div>
       </div>
     </v-scale-transition>
-    <div class="tw-w-40 tw-h-40 overflow-auto tw-fixed tw-top-4 tw-right-4">
-      {{ internalData && internalData.nodes.map((it) => it.id) }}
-    </div>
   </div>
 </template>
 
 <script>
 import {
   computed,
-  nextTick,
   onMounted,
-  onUnmounted,
   reactive,
+  readonly,
   shallowRef,
-  toRaw,
   toRefs,
   watch,
 } from "vue";
-import { createStartNode, registerStartNode } from "../nodes/startNode";
+import { registerStartNode } from "../nodes/startNode";
 import { handleResize, registerEvent, userGraph } from "../graph/graph";
-import { createAddNode, registerAddNode } from "../nodes/addNode";
-import { createEdge } from "../graph/edges";
-import { createEndNode, registerEndNode } from "../nodes/endNode";
+import { registerAddNode } from "../nodes/addNode";
+import { registerEndNode } from "../nodes/endNode";
 import { registerApproveNode } from "../nodes/approveNode";
 import * as addLogic from "../logic/add";
 import { registerConditionNode } from "../nodes/conditionNode";
@@ -131,44 +125,72 @@ export default {
     registerConditionNode();
     registerAddConditionNode();
     registerCrossNode();
-
-    const internalData = computed({
-      get: function () {
-        return graphData.value;
-      },
-      set(value) {
-        emit("update:graphData", value);
-      },
-    });
-
+    const graphRef = shallowRef(null);
     const graphContainerId = "flowGraph";
     const miniMapContainerId = "miniMap";
-    const graphRef = shallowRef(null);
+    if (!editable.value) {
+      watch(
+        graphData,
+        (value) => {
+          const graph = graphRef.value;
+          graph.read(
+            JSON.parse(
+              JSON.stringify({
+                edges: value.edges,
+                nodes: value.nodes,
+              })
+            )
+          );
+          console.log("read");
+        },
+        { deep: true }
+      );
+      userGraph(
+        graphData.value,
+        graphContainerId,
+        miniMapContainerId,
+        graphRef
+      );
+    } else {
+      const internalData = computed({
+        get: function () {
+          console.log("get");
+          return graphData.value || createDefaultData(editable.value);
+        },
+        set(value) {
+          if (editable.value) {
+            console.log("set");
+            emit("update:graphData", value);
+          }
+        },
+      });
 
-    userGraph(
-      internalData.value || createDefaultData(editable.value),
-      graphContainerId,
-      miniMapContainerId,
-      graphRef
-    );
+      userGraph(
+        internalData.value,
+        graphContainerId,
+        miniMapContainerId,
+        graphRef
+      );
+
+      onMounted(() => {
+        const graph = graphRef.value;
+        const onUpdateInternalData = () => {
+          let newData = graph.save();
+          internalData.value = {
+            edges: newData.edges,
+            nodes: newData.nodes,
+          };
+          console.log("afterrender");
+        };
+        graph.on("afterrender", onUpdateInternalData);
+        graph.on("afterlayout", onUpdateInternalData);
+      });
+    }
     handleResize(graphContainerId, graphRef);
 
     //新增审批节点
     const { addApproveNode, addActionNode, addCopyNode, addConditionNode } =
       addLogic;
-
-    onMounted(() => {
-      const graph = graphRef.value;
-      const onUpdateInternalData = () => {
-        let newData = graph.save();
-        internalData.value = {
-          edges: newData.edges,
-          nodes: newData.nodes,
-        };
-      };
-      graph.on("afterrender", onUpdateInternalData);
-      graph.on("afterlayout", onUpdateInternalData);
-    });
 
     const menuOption = reactive({
       show: false,
@@ -189,7 +211,6 @@ export default {
       miniMapContainerId,
       menuOption,
       graphRef,
-      internalData,
       addApproveNode,
       addActionNode,
       addCopyNode,

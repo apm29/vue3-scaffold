@@ -153,7 +153,12 @@ export const registerConditionNode = () =>
        * @param  {Object} cfg 节点的配置项
        * @param  {Node} node 节点
        */
-      update(cfg, node) {},
+      update(cfg, node) {
+        const order = node.getContainer().get("children")[4];
+        const index = node.getContainer().get("children")[2];
+        order?.attr("text", `优先级${parseInt(cfg.nodeData.order) + 1}`);
+        index?.attr("text", `条件${parseInt(cfg.nodeData.order) + 1}`);
+      },
       /**
        * 更新节点后的操作，一般同 afterDraw 配合使用
        * @override
