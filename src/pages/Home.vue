@@ -90,7 +90,7 @@ export default {
     },
     async test() {
       let sourceA = new axios.CancelToken.source();
-      remote.post({
+      let resA = await remote.post({
         url: "/java/auth/getUserInfo",
         data: {},
         showSuccessMessage: true,
@@ -102,7 +102,8 @@ export default {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
       });
       let sourceB = new axios.CancelToken.source();
-      remote.post({
+      console.log(resA);
+      let resB = await remote.post({
         url: "/java/auth/getUserInfo",
         data: {},
         showSuccessMessage: true,
@@ -112,6 +113,7 @@ export default {
         token:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
       });
+      console.log(resB);
     },
   },
 };

@@ -97,6 +97,10 @@ export default {
       } else {
         Utils.startLoading(option);
       }
+      const cache = Utils.onCacheRetrieve(option);
+      if (cache) {
+        return cache;
+      }
       return await axiosInstance.request({
         ...option,
       });
@@ -156,6 +160,7 @@ export default {
   },
 
   init({
+    onCacheRetrieve,
     onInterceptRequest,
     onInterceptResponse,
     onInterceptRejectedRequest,
@@ -165,6 +170,7 @@ export default {
   }) {
     Utils.onInterceptResponse =
       onInterceptResponse || Utils.onInterceptResponse;
+    Utils.onCacheRetrieve = onCacheRetrieve || Utils.onCacheRetrieve;
     Utils.onInterceptRequest = onInterceptRequest || Utils.onInterceptRequest;
     Utils.startLoading = startLoading || Utils.startLoading;
     Utils.stopLoading = stopLoading || Utils.stopLoading;
@@ -189,5 +195,8 @@ const Utils = {
   },
   onInterceptRejectedResponse(error, option) {
     return error;
+  },
+  onCacheRetrieve(option) {
+    return null;
   },
 };

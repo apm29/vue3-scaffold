@@ -2,8 +2,13 @@ import remote from "@/utils/remote/remote";
 import { notification } from "@/utils/notification/notify";
 import { getToken } from "@/utils/storage/storage";
 import { startLoading, stopLoading } from "@/utils/remote/store";
+import { cacheNetworkData, retrieveNetworkData } from "@/utils/cache/L3Cache";
 
 remote.init({
+  onCacheRetrieve(option) {
+    return retrieveNetworkData(option);
+  },
+
   onInterceptRequest(axiosRequest, option) {
     axiosRequest.headers.Authorization = option.token || getToken();
     return axiosRequest;
@@ -21,7 +26,8 @@ remote.init({
               axiosResponse.data.msg || axiosResponse.data.text || "操作成功"
             );
           }
-          resolve(axiosResponse);
+          cacheNetworkData(option, axiosResponse.data);
+          resolve(axiosResponse.data);
         } else {
           notification.error(axiosResponse.data.msg || axiosResponse.data.text);
           reject(axiosResponse);
