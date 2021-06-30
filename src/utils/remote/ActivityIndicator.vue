@@ -17,7 +17,7 @@
       "
     >
       <div class="tw-relative tw-w-3/4">
-        <img alt="cloud" :src="cloud" class="tw-w-full" />
+        <img alt="cloud" :src="cloud" class="tw-w-full tw-animate-pulse" />
         <img
           alt="airplane"
           :src="airplane"
