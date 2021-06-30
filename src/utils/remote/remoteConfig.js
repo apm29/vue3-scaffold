@@ -6,6 +6,9 @@ import { cacheNetworkData, retrieveNetworkData } from "@/utils/cache/L3Cache";
 
 remote.init({
   onCacheRetrieve(option) {
+    if (option.invalidateCache) {
+      return null;
+    }
     return retrieveNetworkData(option);
   },
 
@@ -26,7 +29,7 @@ remote.init({
               axiosResponse.data.msg || axiosResponse.data.text || "操作成功"
             );
           }
-          cacheNetworkData(option, axiosResponse.data);
+          cacheNetworkData(option, axiosResponse.data, option.expire);
           resolve(axiosResponse.data);
         } else {
           notification.error(axiosResponse.data.msg || axiosResponse.data.text);

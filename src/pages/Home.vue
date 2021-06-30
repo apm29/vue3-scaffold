@@ -34,6 +34,8 @@
     <v-btn @click="testDialog()">program-dialog</v-btn>
     <v-btn @click="testDialog2()">program-dialog2</v-btn>
     <v-btn @click="test()">test-network</v-btn>
+    <v-btn @click="test2()">test-network-no-cache</v-btn>
+    <v-btn @click="test3()">test-network-invalidate-cache</v-btn>
     <ModelInput :boolean-value="testValue"></ModelInput>
     <v-btn @click="testValue.a = [1, 2, 3]">test-value</v-btn>
   </div>
@@ -114,6 +116,36 @@ export default {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
       });
       console.log(resB);
+    },
+    async test2() {
+      let sourceA = new axios.CancelToken.source();
+      let resA = await remote.post({
+        url: "/java/auth/getUserInfo",
+        data: {},
+        showSuccessMessage: true,
+        noCache: true,
+        cancelToken: sourceA.token,
+        cancelSource: sourceA,
+        taskName: "测试2",
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
+      });
+      console.log(resA);
+    },
+    async test3() {
+      let sourceA = new axios.CancelToken.source();
+      let resA = await remote.post({
+        url: "/java/auth/getUserInfo",
+        data: {},
+        showSuccessMessage: true,
+        invalidateCache: true,
+        cancelToken: sourceA.token,
+        cancelSource: sourceA,
+        taskName: "测试3",
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pblVzZXJJZCI6IjczODMiLCJvcGVuSWQiOiIiLCJ1c2VyTmFtZSI6InpoaXlleHVleXVhbiIsInR5cGUiOiIxIiwidWlkIjoiNTg4IiwibmJmIjoxNjIzOTc4NjkwLCJpZGVudGl0eSI6IjAiLCJnZW5yZSI6IjEiLCJleHAiOjE2NTI3Nzg2OTAsInNjaG9vbE5hbWUiOiLogYzkuJrlrabpmaIiLCJ5YklkIjoiIiwiaWF0IjoxNjIzOTc4NjkwLCJzY2hvb2xDb2RlIjoiMzMwMTAwMCJ9.CnUEDqgdQrzXyNmRflFkMykn2pxtzd0evdUlizFZeO8",
+      });
+      console.log(resA);
     },
   },
 };
