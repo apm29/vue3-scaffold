@@ -1,4 +1,11 @@
 import { reactive } from "vue";
+import {
+  AxiosAdapter,
+  AxiosBasicCredentials,
+  AxiosTransformer,
+  Method,
+  ResponseType,
+} from "axios";
 
 const MemoryCache = reactive({});
 
@@ -68,11 +75,26 @@ export function retrieve(key) {
 }
 
 export function cacheNetworkData(option, data, expire) {
-  cache(hashcode(option), data, expire);
+  cache(getKeyFromOption(option), data, expire);
 }
 
 export function retrieveNetworkData(option) {
-  return retrieve(hashcode(option));
+  return retrieve(getKeyFromOption(option));
+}
+
+function getKeyFromOption(option) {
+  return hashcode({
+    url: option.url,
+    method: option.method,
+    baseURL: option.baseURL,
+    transformRequest: option.transformRequest,
+    transformResponse: option.transformResponse,
+    headers: option.headers,
+    params: option.params,
+    paramsSerializer: option.paramsSerializer,
+    data: option.data,
+    responseType: option.responseType,
+  });
 }
 
 function hashcode(obj) {
