@@ -36,6 +36,7 @@
     <v-btn @click="test()">test-network</v-btn>
     <v-btn @click="test2()">test-network-no-cache</v-btn>
     <v-btn @click="test3()">test-network-invalidate-cache</v-btn>
+    <v-btn @click="invalidateAll()">invalidate-all-cache</v-btn>
     <ModelInput :boolean-value="testValue"></ModelInput>
     <v-btn @click="testValue.a = [1, 2, 3]">test-value</v-btn>
     <div>
@@ -50,7 +51,7 @@ import { notification } from "@/utils/notification/notify";
 import { dialog } from "@/utils/dialog/dialog";
 import remote from "@/utils/remote/remote";
 import axios from "axios";
-import { delay } from "@/utils/functions";
+import { invalidateAll } from "@/utils/cache/L3Cache";
 import ModelInput from "@/components/ModelInput.vue";
 export default {
   name: "Home",
@@ -69,6 +70,7 @@ export default {
     notification,
     dialog,
     result: null,
+    invalidateAll,
   }),
   async created() {},
   methods: {

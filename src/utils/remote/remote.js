@@ -5,39 +5,6 @@ axios.defaults.withCredentials = true; // 是否允许跨域
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL =
   import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_PATH;
-//默认options
-
-const DEFAULT_OPTION = {
-  responseType: "json", //类型
-  url: "/", //url
-  data: {}, //请求参数在此
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  authorizationKey: "Authorization",
-  transformRequest: [
-    (data) => {
-      return qs.stringify(data, { arrayFormat: "indices", allowDots: true });
-    },
-  ],
-  fileName: undefined,
-  showSuccessMessage: true,
-  showErrorMessage: true,
-  tag: "app", //loading指示器的tag(分组)
-  taskName: "请求", //loading指示器的名称
-  cancelSource: undefined,
-  cancelToken: undefined,
-  onInterceptRequest: undefined, //Function 拦截请求
-  onInterceptResponse: undefined, //Function 拦截响应
-  onInterceptRejectedRequest: undefined, //Function 拦截rejected请求
-  onInterceptRejectedResponse: undefined, //Function 拦截rejected响应
-  startLoading: undefined, //Function 开始加载
-  stopLoading: undefined, //Function 结束加载
-  invalidateCache: false, //不取缓存
-  noCache: false, //不缓存数据,
-  expire: undefined, //缓存过期时间 milliseconds
-};
 
 /**
  * 请求工具类
@@ -50,7 +17,7 @@ export default {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     };
-    option = Object.assign({}, DEFAULT_OPTION, postOptions, option);
+    option = Object.assign({}, Utils.defaultOption, postOptions, option);
     return await this.request(option);
   },
 
@@ -66,7 +33,7 @@ export default {
         },
       ],
     };
-    option = Object.assign({}, DEFAULT_OPTION, postOptions, option);
+    option = Object.assign({}, Utils.defaultOption, postOptions, option);
     return await this.request(option);
   },
 
@@ -78,7 +45,7 @@ export default {
         "Content-Type": "multipart/form-data",
       },
     };
-    option = Object.assign({}, DEFAULT_OPTION, uploadOptions, option);
+    option = Object.assign({}, Utils.defaultOption, uploadOptions, option);
     return await this.request(option);
   },
 
@@ -87,7 +54,7 @@ export default {
       method: "GET",
       headers: {},
     };
-    option = Object.assign({}, DEFAULT_OPTION, getOptions, option);
+    option = Object.assign({}, Utils.defaultOption, getOptions, option);
     return await this.request(option);
   },
   request: async function (option) {
@@ -170,6 +137,7 @@ export default {
     onInterceptRejectedResponse,
     startLoading,
     stopLoading,
+    defaultOption,
   }) {
     Utils.onInterceptResponse =
       onInterceptResponse || Utils.onInterceptResponse;
@@ -181,10 +149,42 @@ export default {
       onInterceptRejectedRequest || Utils.onInterceptRejectedRequest;
     Utils.onInterceptRejectedResponse =
       onInterceptRejectedResponse || Utils.onInterceptRejectedResponse;
+    Utils.defaultOption = defaultOption || Utils.defaultOption;
   },
 };
 
 const Utils = {
+  defaultOption: {
+    responseType: "json", //类型
+    url: "/", //url
+    data: {}, //请求参数在此
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    authorizationKey: "Authorization",
+    transformRequest: [
+      (data) => {
+        return qs.stringify(data, { arrayFormat: "indices", allowDots: true });
+      },
+    ],
+    fileName: undefined,
+    showSuccessMessage: true,
+    showErrorMessage: true,
+    tag: "app", //loading指示器的tag(分组)
+    taskName: "请求", //loading指示器的名称
+    cancelSource: undefined,
+    cancelToken: undefined,
+    onInterceptRequest: undefined, //Function 拦截请求
+    onInterceptResponse: undefined, //Function 拦截响应
+    onInterceptRejectedRequest: undefined, //Function 拦截rejected请求
+    onInterceptRejectedResponse: undefined, //Function 拦截rejected响应
+    startLoading: undefined, //Function 开始加载
+    stopLoading: undefined, //Function 结束加载
+    invalidateCache: false, //不取缓存
+    noCache: false, //不缓存数据,
+    expire: undefined, //缓存过期时间 milliseconds
+  },
   startLoading(option) {},
   stopLoading(option) {},
   onInterceptRequest(axiosRequestConfig, option) {

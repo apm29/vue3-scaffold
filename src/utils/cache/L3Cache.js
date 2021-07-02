@@ -1,11 +1,4 @@
 import { reactive } from "vue";
-import {
-  AxiosAdapter,
-  AxiosBasicCredentials,
-  AxiosTransformer,
-  Method,
-  ResponseType,
-} from "axios";
 
 const MemoryCache = reactive({});
 
@@ -72,6 +65,13 @@ export function cache(key, data, expire = new Date().getTime() + 500_000) {
 
 export function retrieve(key) {
   return getMemoryCache(key) || getSessionStorage(key);
+}
+
+export function invalidateAll() {
+  Object.keys(MemoryCache).forEach((key) => {
+    MemoryCache[key] = undefined;
+  });
+  sessionStorage.setItem(CacheKey, "{}");
 }
 
 export function cacheNetworkData(option, data, expire) {
