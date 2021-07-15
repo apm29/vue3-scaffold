@@ -2,42 +2,52 @@ import { reactive } from "vue";
 
 const MemoryCache = reactive({});
 
-const CacheKey = "$_cached_network_data";
-
 /**
  * 私有方法,设置SessionStorage数据
  * @param key
  * @param data
  * @param expire
+ * 存储为{ type:String, data:Object}
  */
 function setSessionStorage(key, data, expire) {
-  const cacheString = sessionStorage.getItem(CacheKey);
-  let cache;
-  try {
-    cache = JSON.parse(cacheString) || {};
-  } catch (e) {
-    cache = {};
-  }
-  cache[key] = {
+  const cache = {
+    type: typeof data,
     data: data,
     expire: expire,
   };
-  sessionStorage.setItem(CacheKey, JSON.stringify(cache));
+  sessionStorage.setItem(key, JSON.stringify(cache));
 }
 
 function getSessionStorage(key) {
-  const cacheString = sessionStorage.getItem(CacheKey);
+  const cacheString = sessionStorage.getItem(key);
   let cache;
   try {
     cache = JSON.parse(cacheString) || {};
   } catch (e) {
     cache = {};
   }
-  const data = cache[key];
-  if (!data || data.expire <= new Date().getTime()) {
+  switch (cache.type) {
+    case typeof "":
+      cache.data = String(cache.data);
+      break;
+    case typeof null:
+      cache.data = null;
+      break;
+    case typeof {}:
+      break;
+    case typeof undefined:
+      cache.data = undefined;
+      break;
+    case typeof 0:
+      break;
+    default:
+      break;
+  }
+  const data = cache.data;
+  if (cache.expire <= new Date().getTime()) {
     return null;
   } else {
-    return data.data;
+    return data;
   }
 }
 function getMemoryCache(key) {
@@ -71,7 +81,7 @@ export function invalidateAll() {
   Object.keys(MemoryCache).forEach((key) => {
     MemoryCache[key] = undefined;
   });
-  sessionStorage.setItem(CacheKey, "{}");
+  sessionStorage.clear();
 }
 
 export function cacheNetworkData(option, data, expire) {
