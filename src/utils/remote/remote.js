@@ -181,7 +181,7 @@ const Utils = {
     onInterceptRejectedResponse: undefined, //Function 拦截rejected响应
     startLoading: undefined, //Function 开始加载
     stopLoading: undefined, //Function 结束加载
-    invalidateCache: false, //不取缓存
+    invalidateCache: true, //不取缓存
     noCache: false, //不缓存数据,
     expire: undefined, //缓存过期时间 milliseconds
   },
