@@ -26,6 +26,7 @@ export default defineConfig({
   },
   server: {
     open: true,
+    port: 3399,
     proxy: {
       // 字符串简写写法
       //"/foo": "http://localhost:4567/foo",

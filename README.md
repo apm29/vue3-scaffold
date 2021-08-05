@@ -70,8 +70,36 @@ vue add vuetify
 选择Preview (Vuetify 3 + Vite)
 
 
+#### 4.引入ui框架(vant3.0)
 
-#### 4.添加ESLint
+* 安装依赖
+
+```shell
+npm i vant@next -S
+```
+
+* 引入组件 使用vite-plugin-style-import按需引入
+    * 引入vite-plugin-style-import插件
+    ```shell
+    npm i vite-plugin-style-import -D
+    ```
+    * 在vite.config.js配置
+  > 没有的话创建一个,按ui框架文档书写配置
+* 备选: 全局引入(不可与按需引入同时使用)
+
+ ```js
+
+import { createApp } from 'vue';
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+const app = createApp();
+app.use(Vant);
+
+```
+
+
+#### 5.添加ESLint
 
 vue-cli命令行添加eslint,选择喜欢的配置: 我是prettier + lint on save
 ```shell
@@ -80,7 +108,7 @@ vue add eslint
 > `Webstorm` 需要在设置中Language And Framework -> JavaScript -> Prettier 配置save时lint
 
 
-#### 5.添加vue-router
+#### 6.添加vue-router
 添加依赖
 ```shell
 yarn add vue-router@4 或者 npm install vue-router@4
