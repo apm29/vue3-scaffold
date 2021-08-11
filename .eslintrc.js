@@ -19,7 +19,7 @@ module.exports = {
     "vue/no-reserved-keys": "warn",
     "vue/no-shared-component-data": "warn",
     "vue/no-side-effects-in-computed-properties": "warn",
-    "vue/no-template-key": "warn",
+    "vue/no-template-key": "off",
     "vue/no-textarea-mustache": "warn",
     "vue/no-unused-components": "warn",
     "vue/no-unused-vars": "off",

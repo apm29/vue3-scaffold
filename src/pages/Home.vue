@@ -42,7 +42,7 @@
     <div>
       {{ result }}
     </div>
-    <van-button color="indigo" round>测试Vant组件</van-button>
+    <van-button color="indigo" round to="/abort">测试Vant组件</van-button>
   </div>
 </template>
 
