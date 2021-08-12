@@ -426,10 +426,10 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
-"@mdi/font@5.9.55":
+"@mdi/font@^5.9.55":
   version "5.9.55"
-  resolved "https://registry.nlark.com/@mdi/font/download/@mdi/font-5.9.55.tgz#41acd50b88073ded7095fc3029d8712b6e12f38e"
-  integrity sha1-QazVC4gHPe1wlfwwKdhxK24S844=
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.9.55.tgz#41acd50b88073ded7095fc3029d8712b6e12f38e"
+  integrity sha512-jswRF6q3eq8NWpWiqct6q+6Fg/I7nUhrxYJfiEM8JJpap0wVJLQdbKtyS65GdlK7S7Ytnx3TTi/bmw+tBhkGmg==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -5617,11 +5617,6 @@ vue@^3.0.4:
     "@vue/compiler-dom" "3.1.2"
     "@vue/runtime-dom" "3.1.2"
     "@vue/shared" "3.1.2"
-
-vuetify@^3.0.0-alpha.5:
-  version "3.0.0-alpha.6"
-  resolved "https://registry.nlark.com/vuetify/download/vuetify-3.0.0-alpha.6.tgz?cache=0&sync_timestamp=1624418449091&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvuetify%2Fdownload%2Fvuetify-3.0.0-alpha.6.tgz#26c7eecd8e1648767fd8284e2d3944e1df41294c"
-  integrity sha1-JsfuzY4WSHZ/2ChOLTlE4d9BKUw=
 
 vuex@^4.0.1:
   version "4.0.1"

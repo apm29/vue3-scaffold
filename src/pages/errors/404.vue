@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full">
+  <div class="flex flex-col items-center justify-center h-full">
     <svg
       id="fd59ce54-f850-4dfc-bc34-dd7d379d600e"
       data-name="Layer 1"
@@ -290,9 +290,7 @@
       <circle cx="582.946" cy="355.1155" r="5" fill="#536dfe" opacity="0.3" />
       <circle cx="460.946" cy="355.1155" r="5" fill="#536dfe" opacity="0.3" />
     </svg>
-    <div class="tw-mt-8 tw-text-xl tw-text-gray-700 tw-font-bold">
-      未找到路径{{ path }}
-    </div>
+    <div class="mt-8 text-xl text-gray-700 font-bold">未找到路径{{ path }}</div>
   </div>
 </template>
 

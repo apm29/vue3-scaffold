@@ -1,8 +1,9 @@
 import remote from "@/utils/remote/remote";
-import { notification } from "@/utils/notification/notify";
+import { Notify } from "vant";
 import { getToken } from "@/utils/storage/storage";
 import { startLoading, stopLoading } from "@/utils/remote/store";
 import { cacheNetworkData, retrieveNetworkData } from "@/utils/cache/L3Cache";
+import axios from "axios";
 
 remote.init({
   onCacheRetrieve(option) {
@@ -25,18 +26,26 @@ remote.init({
           String(axiosResponse.data.code) === "1"
         ) {
           if (option.showSuccessMessage) {
-            notification.success(
-              axiosResponse.data.msg || axiosResponse.data.text || "操作成功"
-            );
+            Notify({
+              msg:
+                axiosResponse.data.msg || axiosResponse.data.text || "操作成功",
+              type: "success",
+            });
           }
           cacheNetworkData(option, axiosResponse.data, option.expire);
           resolve(axiosResponse.data);
         } else {
-          notification.error(axiosResponse.data.msg || axiosResponse.data.text);
+          Notify({
+            type: "danger",
+            message: axiosResponse.data.msg || axiosResponse.data.text,
+          });
           reject(axiosResponse);
         }
       } else {
-        notification.error(axiosResponse.statusText);
+        Notify({
+          type: "danger",
+          message: axiosResponse.statusText,
+        });
         reject(axiosResponse);
       }
     });
@@ -44,18 +53,29 @@ remote.init({
 
   onInterceptRejectedRequest(error, option) {
     if (option.showErrorMessage && error) {
-      notification.error(error.message || String(error));
+      Notify({
+        type: "danger",
+        message: error.message || String(error),
+      });
     }
     return error;
   },
   onInterceptRejectedResponse(error, option) {
     if (option.showErrorMessage && error) {
-      notification.error(error.message || String(error));
+      Notify({
+        type: "danger",
+        message: error.message || String(error),
+      });
     }
     return error;
   },
 
   startLoading(option) {
+    if (option.taskName && !option.cancelToken) {
+      const tokenSource = new axios.CancelToken.source();
+      option.cancelSource = tokenSource;
+      option.cancelToken = tokenSource.token;
+    }
     startLoading(option.tag, option.taskName, option.cancelSource);
   },
   stopLoading(option) {

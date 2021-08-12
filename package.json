@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@antv/g6": "^4.3.3",
-    "@mdi/font": "5.9.55",
+    "@mdi/font": "^5.9.55",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.4",
@@ -20,7 +20,6 @@
     "vant": "^3.1.5",
     "vue": "^3.0.4",
     "vue-router": "4",
-    "vuetify": "^3.0.0-alpha.5",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

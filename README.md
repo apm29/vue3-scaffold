@@ -21,7 +21,7 @@ tailwind.config.js文件:
 ```js
 module.exports = {
   purge: ["src/**/*.vue"],
-  prefix: "tw-",
+  prefix: "",
   corePlugins: {
     preflight: false, //禁用preflight样式重置
   },

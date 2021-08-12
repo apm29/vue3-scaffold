@@ -1,7 +1,7 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
   purge: ["src/**/*.vue"],
-  prefix: "tw-",
+  prefix: "",
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -229,6 +229,6 @@ module.exports = {
   },
   plugins: [],
   corePlugins: {
-    preflight: false, //禁用preflight样式重置
+    preflight: true, //禁用preflight样式重置
   },
 };

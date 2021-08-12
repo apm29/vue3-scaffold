@@ -1,22 +1,18 @@
 <template>
-  <v-app>
-    <router-view v-slot="{ Component }" class="tw-h-full">
-      <v-slide-x-transition>
+  <van-config-provider tag="div" class="w-full h-full">
+    <router-view v-slot="{ Component }" class="h-full">
+      <transition name="van-slide-left">
         <keep-alive>
-          <component :is="Component" class="tw-h-full" />
+          <component :is="Component" class="h-full" />
         </keep-alive>
-      </v-slide-x-transition>
-      <Notification></Notification>
-      <Dialogs />
+      </transition>
       <ActivityIndicator />
     </router-view>
-  </v-app>
+  </van-config-provider>
 </template>
 <script>
-import Notification from "@/utils/notification/Notification.vue";
-import Dialogs from "@/utils/dialog/Dialogs.vue";
 import ActivityIndicator from "@/utils/remote/ActivityIndicator.vue";
 export default {
-  components: { ActivityIndicator, Dialogs, Notification },
+  components: { ActivityIndicator },
 };
 </script>
