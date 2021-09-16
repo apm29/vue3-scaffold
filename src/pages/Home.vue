@@ -14,8 +14,10 @@
             text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
           />
           <van-pull-refresh v-model="refreshing" @refresh="testNetwork(true)">
-            <van-list @load="testNetwork">
-              <van-cell v-for="item in data" :key="item" :title="item" />
+            <van-list>
+              <van-cell v-for="item in 20" :key="item" :title="item" />
+              <list-item title="测试"></list-item>
+              <van-cell v-for="item in 20" :key="item" :title="item" />
             </van-list>
           </van-pull-refresh>
         </div>
@@ -33,8 +35,10 @@
 <script>
 import remote from "@/utils/remote/remote";
 import { ref } from "vue";
+import ListItem from "@/components/ListItem.vue";
 
 export default {
+  components: { ListItem },
   name: "Home",
   setup() {
     const data = ref(10);
@@ -47,7 +51,7 @@ export default {
       refreshing.value = false;
       try {
         await remote.post({
-          url: "/asdas",
+          url: "/test",
           taskName: "测试任务",
         });
       } catch (e) {}
