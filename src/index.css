@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 html{
   overflow-y: auto !important;
   font-family: "MI Lan Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",

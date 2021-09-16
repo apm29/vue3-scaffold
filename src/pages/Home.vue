@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full">
     <van-tabs class="flex-grow overflow-auto">
       <van-tab title="测试" class="p-4">
         <van-button color="indigo" round to="/abort">Abort</van-button>

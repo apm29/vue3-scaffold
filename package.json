@@ -29,18 +29,17 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.4",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.29.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
-    "postcss": "^7",
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2",
     "vite": "^2.2.3",
-    "vite-plugin-style-import": "^0.10.0"
+    "vite-plugin-style-import": "^0.10.0",
+    "vite-plugin-windicss": "^1.4.3",
+    "windicss": "^3.1.7"
   },
   "eslintConfig": {
     "root": true,

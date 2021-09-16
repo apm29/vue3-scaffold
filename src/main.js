@@ -5,6 +5,7 @@ import router from "@/router/router";
 import store from "@/store";
 import App from "@/App.vue";
 import "@/index.css";
+import "virtual:windi.css";
 import "@mdi/font/css/materialdesignicons.css";
 import lazy from "@/utils/lazy/lazy";
 const app = createApp(App);

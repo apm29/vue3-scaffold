@@ -149,3 +149,23 @@ app.mount('#app')
 
 // Now the app has started!
 ```
+### 7.迁移到windicss
+
+安装相关包：
+
+`npm i -D vite-plugin-windicss windicss`
+
+然后，在你的 Vite 配置中添加插件：
+```javascript
+import WindiCSS from 'vite-plugin-windicss'
+
+export default {
+  plugins: [
+    WindiCSS(),
+  ],
+}
+```
+最后，在你的 Vite 入口文件中导入 virtual:windi.css：
+```javascript
+import 'virtual:windi.css'
+```

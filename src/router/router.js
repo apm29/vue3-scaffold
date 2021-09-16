@@ -12,11 +12,6 @@ const routes = [
     name: "Abort",
     component: () => import("@/pages/Abort.vue"),
   },
-  {
-    path: "/flow",
-    name: "FlowEditor",
-    component: () => import("@/pages/flow/FlowEditor.vue"),
-  },
 
   //匹配所有内容
   {
